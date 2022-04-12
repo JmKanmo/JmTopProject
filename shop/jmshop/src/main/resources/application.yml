@@ -17,7 +17,7 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
 
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.MariaDB106Dialect
 
     hibernate:
       format_sql: true
