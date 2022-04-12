@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="jmshop 메인 페이지 입니다.">
+    <title>main</title>
+    <link th:href="@{/css/main.css}" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+
+<h1>JmService</h1>
+
+<ui>
+    <li th:each="category : ${categories}">
+        <a th:href="@{${category.link}}">
+         <span th:text="${category.title}">title</span>
+        </a>
+    </li>
+</ui>
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+</body>
+</html>

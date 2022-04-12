@@ -1,0 +1,25 @@
+@charset "utf-8";
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-width: 1080px;
+    min-height: 100%;
+    font-family: '나눔 고딕', NanumGothic, '돋움', Dotum, sans-serif;
+}
+
+
+ul,
+ol,
+li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+
+a {
+    text-decoration: none;
+    color: chartreuse;
+}

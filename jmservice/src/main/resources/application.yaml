@@ -1,0 +1,44 @@
+spring:
+  thymeleaf:
+    cache: false
+
+  devtools:
+    livereload:
+      enabled: true
+
+    remote:
+      restart:
+        enabled: true
+
+  datasource:
+    url: jdbc:postgresql://192.168.35.232:5432/postgres
+    username: junmokang
+    password: wnsah12
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+    hibernate:
+      format_sql: true
+      show_sql: true
+      use_sql_comments: true
+#      ddl-auto: create-drop
+      use-new-id-generator-mappings: true
+
+server:
+  port: 9000
+
+logging:
+  pattern:
+    console: "[%d] %-5level [${PID:-} - %thread - {%C => %M, %l}] %logger : %msg%n"
+    file: "[%d] %-5level [${PID:-} - %thread - {%C => %M, %l}] %logger : %msg%n"
+
+  file:
+    name: ./logs/JmService.log
+    max-history: 30
+
+
+
+
+
