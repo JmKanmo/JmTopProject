@@ -10,6 +10,10 @@ spring:
       restart:
         enabled: true
 
+  servlet:
+    multipart:
+      max-file-size: 10MB
+
   datasource:
     url: jdbc:mariadb://192.168.35.232:3306/jmshop_mariadb
     username: junmokang
@@ -17,13 +21,13 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
 
   jpa:
-    database-platform: org.hibernate.dialect.MariaDB106Dialect
+    database-platform: org.hibernate.dialect.MariaDB103Dialect
 
     hibernate:
       format_sql: true
       show_sql: true
       use_sql_comments: true
-      ddl-auto: create-drop
+#      ddl-auto: create-drop
       use-new-id-generator-mappings: true
 
 server:

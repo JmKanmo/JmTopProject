@@ -30,6 +30,14 @@ a {
     clear: both;
 }
 
+.blind {
+    position: absolute;
+    overflow: hidden;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    clip: rect(0 0 0 0);
+}
 /*
  header 영역
 */
@@ -148,7 +156,7 @@ a {
 }
 
 .div_contents {
-    margin: 30px;
+    margin: 20px;
 }
 
 .div_contents h4 {
@@ -156,20 +164,20 @@ a {
 }
 
 /*폼요소 스타일정의*/
-.signup_form {
+.register_form {
     border: 1px solid #e4e4e4;
     background-color: #fbfbfb;
     padding: 15px;
 }
 
-.signup_form label {
+.register_form label {
     display: block;
     margin-bottom: 10px;
     font-size: 14px;
     font-weight: bold;
 }
 
-.signup_form .input_form {
+.register_form .input_form {
     width: 100%;
     height: 30px;
     border: 1px solid #e4e4e4;
@@ -177,24 +185,38 @@ a {
     font-size: 12px;
 }
 
-.signup_form .file_form {
+.register_form .file_form {
     margin-bottom: 15px;
     font-size: 12px;
 }
 
-.signup_form .thumbnail_container {
-    width: 100px;
-    height: 100px;
+.register_form .product_image_container {
     border: 1px solid #d1d1d1;
-    margin-bottom: 30px;
+    padding: 10px;
+    margin-bottom: 15px;
+    width: 50%;
+    position: relative;
 }
 
-.signup_form .thumbnail_container .thumbnail_img {
+.register_form .product_image_container .thumbnail_img {
     width: 100%;
     height: 100%;
 }
 
-.signup_form .select_form {
+.register_form .product_image_container .reset_img_btn {
+    position: absolute;
+    top: 15px;
+    right: 3px;
+    width: 20px;
+    height: 20px;
+    content: "";
+    cursor: pointer;
+    background-image: url(../image/reset_image.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.register_form .select_form {
     width: 298px;
     height: 30px;
     border: 1px solid #e4e4e4;
@@ -202,61 +224,7 @@ a {
     font-size: 12px;
 }
 
-.signup_form .sex_form {
-    width: 150px;
-    margin-bottom: 15px;
-}
-
-.sex_form .radio,
-.hobby_form .radio {
-    float: left;
-}
-
-.sex_form .radio + .radio {
-    float: right;
-}
-
-.sex_form .sex_btn,
-.hobby_form .hobby_btn {
-    margin: 0 5px 0 0;
-    position: relative;
-    top: -1px;
-}
-
-.sex_form .sex_label,
-.hobby_form .hobby_label {
-    float: right;
-    font-weight: normal;
-    font-size: 12px;
-}
-
-.signup_form .phoneNumber_input {
-    width: 80%;
-    height: 30px;
-    border: 1px solid #e4e4e4;
-    font-size: 12px;
-    margin-bottom: 5px;
-}
-
-.signup_form .phoneNumber_btn {
-    width: 19%;
-    height: 35px;
-    border: 1px solid #08a600;
-    background-color: #4ec53d;
-    font-size: 12px;
-    color: #fff;
-    cursor: pointer;
-}
-
-.signup_form .hobby_form {
-    margin-bottom: 15px;
-}
-
-.hobby_form .radio + .radio {
-    margin-left: 70px;
-}
-
-.signup_form .greeting_form {
+.register_form .description_form {
     width: 100%;
     height: 100px;
     border: 1px solid #e4e4e4;
@@ -264,7 +232,7 @@ a {
     margin-bottom: 15px;
 }
 
-.signup_form .signup_btn {
+.register_form .register_btn {
     width: 100%;
     height: 40px;
     border: 1px solid #08a600;
@@ -277,7 +245,6 @@ a {
 /*
  footer 영역
 */
-
 .footer {
     width: 100%;
     height: 120px;
