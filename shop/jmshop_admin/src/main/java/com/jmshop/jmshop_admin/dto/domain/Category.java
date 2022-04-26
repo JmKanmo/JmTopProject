@@ -1,4 +1,4 @@
-package com.jmshop.jmshop_admin.domain;
+package com.jmshop.jmshop_admin.dto.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

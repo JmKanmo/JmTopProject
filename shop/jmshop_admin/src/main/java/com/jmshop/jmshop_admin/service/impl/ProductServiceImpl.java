@@ -1,6 +1,6 @@
 package com.jmshop.jmshop_admin.service.impl;
 
-import com.jmshop.jmshop_admin.domain.Product;
+import com.jmshop.jmshop_admin.dto.domain.Product;
 import com.jmshop.jmshop_admin.repository.ProductRepository;
 import com.jmshop.jmshop_admin.service.ProductService;
 import org.springframework.stereotype.Service;

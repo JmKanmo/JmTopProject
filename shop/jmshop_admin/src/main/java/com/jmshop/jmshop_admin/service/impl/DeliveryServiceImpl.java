@@ -1,6 +1,6 @@
 package com.jmshop.jmshop_admin.service.impl;
 
-import com.jmshop.jmshop_admin.domain.Delivery;
+import com.jmshop.jmshop_admin.dto.domain.Delivery;
 import com.jmshop.jmshop_admin.repository.DeliveryRepository;
 import com.jmshop.jmshop_admin.service.DeliveryService;
 import org.springframework.stereotype.Service;

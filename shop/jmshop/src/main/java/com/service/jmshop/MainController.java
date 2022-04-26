@@ -1,4 +1,4 @@
-package com.jmshop.jmshop_admin.controller;
+package com.service.jmshop;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +10,7 @@ import java.util.Optional;
 public class MainController {
     @GetMapping
     public String main(Model model) {
-        model.addAttribute("product", Optional.empty());
+        model.addAttribute("userInfo", Optional.empty());
         return "main";
     }
 }

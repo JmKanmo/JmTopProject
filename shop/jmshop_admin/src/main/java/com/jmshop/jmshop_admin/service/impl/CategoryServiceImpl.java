@@ -1,6 +1,6 @@
 package com.jmshop.jmshop_admin.service.impl;
 
-import com.jmshop.jmshop_admin.domain.Category;
+import com.jmshop.jmshop_admin.dto.domain.Category;
 import com.jmshop.jmshop_admin.repository.CategoryRepository;
 import com.jmshop.jmshop_admin.service.CategoryService;
 import org.springframework.stereotype.Service;

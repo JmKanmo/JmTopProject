@@ -1,6 +1,6 @@
 package com.jmshop.jmshop_admin.service.impl;
 
-import com.jmshop.jmshop_admin.domain.Coupon;
+import com.jmshop.jmshop_admin.dto.domain.Coupon;
 import com.jmshop.jmshop_admin.repository.CouponRepository;
 import com.jmshop.jmshop_admin.service.CouponService;
 import org.springframework.stereotype.Service;

@@ -12,7 +12,6 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestControllerAdvice
-@Slf4j
 public class JmServiceExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity catchException(Exception e, HttpServletRequest httpServletRequest) {
@@ -21,7 +20,6 @@ public class JmServiceExceptionHandler {
         errorResponse.setRequestUrl(httpServletRequest.getRequestURI());
         errorResponse.setStatusCode(HttpStatus.BAD_REQUEST.toString());
         errorResponse.setResultCode("ERROR-FAIL");
-        log.error("[JmService - JmServiceExceptionHandler], Error Happened => " + errorResponse);
         return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(errorResponse);
     }
 }
