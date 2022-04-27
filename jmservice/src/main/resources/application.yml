@@ -35,7 +35,7 @@ logging:
     file: "[%d] %-5level [${PID:-} - %thread - {%C => %M, %l}] %logger : %msg%n"
 
   file:
-    name: ./logs/JmService.log
+    name: ../jmservice/logs/JmService.log
     max-history: 30
 
 

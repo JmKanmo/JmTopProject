@@ -39,7 +39,7 @@ logging:
     file: "[%d] %-5level [${PID:-} - %thread - {%C => %M, %l}] %logger : %msg%n"
 
   file:
-    name: ./logs/JmShopAdmin.log
+    name: ../shop/jmshop_admin/logs/JmShopAdmin.log
     max-history: 30
 
 #  level:
