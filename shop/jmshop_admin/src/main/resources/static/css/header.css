@@ -1,0 +1,23 @@
+/*
+ header 영역
+*/
+.header_container {
+    height: 120px;
+    background-color: #000;
+}
+
+.header_container .header {
+    width: 1080px;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.header_container .header .logo {
+    line-height: 120px;
+    margin: 0 0 0 40px;
+}
+
+.header_container .header .logo a {
+    color: #fff;
+    font-size: 40px;
+}

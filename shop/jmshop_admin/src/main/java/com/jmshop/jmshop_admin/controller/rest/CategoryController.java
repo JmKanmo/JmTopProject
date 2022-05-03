@@ -2,6 +2,7 @@ package com.jmshop.jmshop_admin.controller.rest;
 
 import com.jmshop.jmshop_admin.dto.domain.Category;
 import com.jmshop.jmshop_admin.service.CategoryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,12 +14,9 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/register", produces = "application/json")
+@RequiredArgsConstructor
 public class CategoryController {
-    private CategoryService categoryService;
-
-    public CategoryController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
+    private final CategoryService categoryService;
 
     @PostMapping(path = "/category", consumes = "application/json")
     public ResponseEntity<Long> registerCategory(@Valid @RequestBody Category category) {

@@ -1,0 +1,46 @@
+@charset "utf-8";
+
+/*기본스타일 정의*/
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-width: 1080px;
+    min-height: 100%;
+    font-family: '나눔 고딕', NanumGothic, '돋움', Dotum, sans-serif;
+}
+
+ul,
+ol,
+li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+.clear_fix::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.blind {
+    position: absolute;
+    overflow: hidden;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    clip: rect(0 0 0 0);
+}
+
+.footer_text {
+    color: chartreuse;
+    color: blanchedalmond;
+}
+

@@ -1,153 +1,130 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
-    <title>관리자페이지</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link th:href="@{/css/main.css}" type="text/css" rel="stylesheet">
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
+      layout:decorate="~{layouts/adminLayout}">
 
-<body>
-<div class="header_container">
-    <header class="header">
-        <h1 class="logo"><a href="">관리자 페이지</a></h1>
-    </header>
-</div>
+<div layout:fragment="content">
+    <div class="middle_background">
+        <nav class="menu clear_fix">
+            <a href="#product_form" class="btn_group">
+                상품 등록
+            </a>
 
-<div class="middle_background">
-    <nav class="menu clear_fix">
-        <a href="#product_form" class="btn_group">
-            상품 등록
-        </a>
+            <a href="/" class="btn_group">
+                쿠폰 등록
+            </a>
 
-        <a href="/" class="btn_group">
-            쿠폰 등록
-        </a>
+            <a href="/" class="btn_group">
+                판매자 등록
+            </a>
+        </nav>
 
-        <a href="/" class="btn_group">
-            판매자 등록
-        </a>
-    </nav>
-
-
-    <div class="main">
-        <div class="phrase">
-            <h3>등록 양식</h3>
-        </div>
-
-        <div class="content_container">
-            <div class="content_title">
-                <h3>상품 등록</h3>
+        <div class="main">
+            <div class="phrase">
+                <h3>등록 양식</h3>
             </div>
 
-            <div class="div_contents" id="product_form">
-                <form action="/register/product" method="POST" class="register_form"
-                      name="register_form" enctype="multipart/form-data"
-                      th:object="${product}">
-                    <label for="product_name">상품명</label>
-                    <p id="name_validation" class="validation_error">
-                        <span class="blind">유효성 에러 문구</span>
-                    </p>
-                    <input type="text" id="product_name" name="product_name" maxlength="128"
-                           class="input_form" placeholder="상품명을 입력해주세요. (최대 128글자, 전체 상품명 공백 및 스페이스바 입력불가)"
-                           th:field="*{name}">
+            <div class="content_container">
+                <div class="content_title">
+                    <h3>상품 등록</h3>
+                </div>
 
-                    <label for="product_category">상품 카테고리</label>
-                    <select class="select_form" id="product_category" name="product_category">
-                        <!-- 쿠폰 추후 추가 예정 -->
-                        <option>카테고리 없음</option>
-                    </select>
+                <div class="div_contents" id="product_form">
+                    <form action="/register/product" method="POST" class="register_form"
+                          name="register_form" enctype="multipart/form-data"
+                          th:object="${product}">
+                        <label for="product_name">상품명</label>
+                        <p id="name_validation" class="validation_error">
+                            <span class="blind">유효성 에러 문구</span>
+                        </p>
+                        <input type="text" id="product_name" name="product_name" maxlength="128"
+                               class="input_form" placeholder="상품명을 입력해주세요. (최대 128글자, 전체 상품명 공백 및 스페이스바 입력불가)"
+                               th:field="*{name}">
 
-                    <label for="product_price">상품 가격</label>
-                    <p id="price_validation" class="validation_error">
-                        <span class="blind">유효성 에러 문구</span>
-                    </p>
-                    <input type="number" id="product_price" class="input_form"
-                           placeholder="상품가격을 입력해주세요.(원 생략, 최소 0원 ~ 최대 999,999,999,999원 범위)"
-                           name="product_price" th:field="*{price}">
+                        <label for="product_category">상품 카테고리</label>
+                        <select class="select_form" id="product_category" name="product_category">
+                            <!-- 쿠폰 추후 추가 예정 -->
+                            <option>카테고리 없음</option>
+                        </select>
 
-                    <label for="product_description">상품 설명 </label>
-                    <p id="description_validation" class="validation_error">
-                        <span class="blind">유효성 에러 문구</span>
-                    </p>
-                    <textarea id="product_description" class="description_form" maxlength="65545"
-                              placeholder="상품 설명은 최대 65545 글자 까지 입력 가능합니다."
-                              name="product_description" th:field="*{description}"></textarea>
+                        <label for="product_price">상품 가격</label>
+                        <p id="price_validation" class="validation_error">
+                            <span class="blind">유효성 에러 문구</span>
+                        </p>
+                        <input type="number" id="product_price" class="input_form"
+                               placeholder="상품가격을 입력해주세요.(원 생략, 최소 0원 ~ 최대 999,999,999,999원 범위)"
+                               name="product_price" th:field="*{price}">
 
-                    <label for="product_image">상품 이미지 </label>
-                    <div class="product_image_container">
-                        <input type="file" id="product_image" name="product_image"
-                               class="file_form"
-                               accept="image/jpeg, image/jpg, image/png, image/gif, image/bmp, image/pdf">
-                        <img class="thumbnail_img" src="../image/default_thumbnail.gif" title="상품이미지">
-                        <span class="reset_img_btn" title="이미지 초기화 버튼">
+                        <label for="product_description">상품 설명 </label>
+                        <p id="description_validation" class="validation_error">
+                            <span class="blind">유효성 에러 문구</span>
+                        </p>
+                        <textarea id="product_description" class="description_form" maxlength="65545"
+                                  placeholder="상품 설명은 최대 65545 글자 까지 입력 가능합니다."
+                                  name="product_description" th:field="*{description}"></textarea>
+
+                        <label for="product_image">상품 이미지 </label>
+                        <div class="product_image_container">
+                            <input type="file" id="product_image" name="product_image"
+                                   class="file_form"
+                                   accept="image/jpeg, image/jpg, image/png, image/gif, image/bmp, image/pdf">
+                            <img class="thumbnail_img" src="../image/default_thumbnail.gif" title="상품이미지">
+                            <span class="reset_img_btn" title="이미지 초기화 버튼">
                             <span class="blind">이미지 초기화</span>
                         </span>
-                    </div>
+                        </div>
 
-                    <label for="product_tag">상품 태그,강조</label>
-                    <p id="tag_validation" class="validation_error">
-                        <span class="blind">유효성 에러 문구</span>
-                    </p>
-                    <input type="text" id="product_tag" name="product_tag" maxlength="50"
-                           class="input_form" placeholder="강조,태그할 내용을 입력해주세요. 최대 50글자"
-                           th:field="*{tag}">
+                        <label for="product_tag">상품 태그,강조</label>
+                        <p id="tag_validation" class="validation_error">
+                            <span class="blind">유효성 에러 문구</span>
+                        </p>
+                        <input type="text" id="product_tag" name="product_tag" maxlength="50"
+                               class="input_form" placeholder="강조,태그할 내용을 입력해주세요. 최대 50글자"
+                               th:field="*{tag}">
 
-                    <label for="shipping_fee">기본 배송비</label>
-                    <p id="shipping_validation" class="validation_error">
-                        <span class="blind">유효성 에러 문구</span>
-                    </p>
-                    <select class="select_form" id="shipping_fee" name="shipping_fee">
-                        <option>배송비없음</option>
-                        <option>1000</option>
-                        <option>2000</option>
-                        <option>3000</option>
-                        <option>4000</option>
-                        <option>5000</option>
-                        <option>6000</option>
-                        <option>7000</option>
-                        <option>8000</option>
-                        <option>9000</option>
-                        <option>10000</option>
-                    </select>
+                        <label for="shipping_fee">기본 배송비</label>
+                        <p id="shipping_validation" class="validation_error">
+                            <span class="blind">유효성 에러 문구</span>
+                        </p>
+                        <select class="select_form" id="shipping_fee" name="shipping_fee">
+                            <option>배송비없음</option>
+                            <option>1000</option>
+                            <option>2000</option>
+                            <option>3000</option>
+                            <option>4000</option>
+                            <option>5000</option>
+                            <option>6000</option>
+                            <option>7000</option>
+                            <option>8000</option>
+                            <option>9000</option>
+                            <option>10000</option>
+                        </select>
 
-                    <label for="product_discount">할인율(%)</label>
-                    <p id="discount_validation" class="validation_error">
-                        <span class="blind">유효성 에러 문구</span>
-                    </p>
-                    <input type="number" id="product_discount"
-                           class="input_form" placeholder="상품 할인율(%)을 입력해주세요.(% 생략, 최소 0% ~ 최대 100% 범위)"
-                           name="product_discount" th:field="*{discount}">
+                        <label for="product_discount">할인율(%)</label>
+                        <p id="discount_validation" class="validation_error">
+                            <span class="blind">유효성 에러 문구</span>
+                        </p>
+                        <input type="number" id="product_discount"
+                               class="input_form" placeholder="상품 할인율(%)을 입력해주세요.(% 생략, 최소 0% ~ 최대 100% 범위)"
+                               name="product_discount" th:field="*{discount}">
 
-                    <label for="product_coupon">쿠폰 적용</label>
-                    <select class="select_form" id="product_coupon" name="product_coupon">
-                        <!-- 쿠폰 추후 추가 예정 -->
-                        <option>쿠폰 없음</option>
-                    </select>
+                        <label for="product_coupon">쿠폰 적용</label>
+                        <select class="select_form" id="product_coupon" name="product_coupon">
+                            <!-- 쿠폰 추후 추가 예정 -->
+                            <option>쿠폰 없음</option>
+                        </select>
 
-                    <label for="product_delivery">택배사 추가</label>
-                    <select class="select_form" id="product_delivery" name="product_delivery">
-                        <!-- 쿠폰 추후 추가 예정 -->
-                        <option>추가 안함</option>
-                    </select>
+                        <label for="product_delivery">택배사 추가</label>
+                        <select class="select_form" id="product_delivery" name="product_delivery">
+                            <!-- 쿠폰 추후 추가 예정 -->
+                            <option>추가 안함</option>
+                        </select>
 
-                    <button class="register_btn" type="button">등록하기</button>
-                </form>
+                        <button class="register_btn" type="button">등록하기</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-<footer class="footer">
-    <div class="info">
-        주소: 서울 특별시 강서구 등촌동, E-MAIL: hamburger300@jmservice.com
-    </div>
-    <div class="copyright">
-        Copyright ⓒ JmCorporation. All Rights Reserved.
-    </div>
-</footer>
-
-<script type="text/javascript" th:src="@{/js/main.js}"></script>
-</body>
 </html>
