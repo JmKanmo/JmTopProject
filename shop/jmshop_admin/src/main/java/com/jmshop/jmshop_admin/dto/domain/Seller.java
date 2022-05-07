@@ -15,27 +15,22 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Seller {
+public class Seller extends BaseTimeEntity{
     @Id
     @GeneratedValue
     @Column(name = "seller_id")
     private Long id;
 
-    @JsonProperty("c_name")
     @NotEmpty(message = "회사명이 비어있습니다!")
     @NotBlank(message = "회사명은 공백만 올 수 없습니다!")
     @Size(max = 128, message = "회사명은 최대 128글자 까지 작성 가능합니다.")
     private String cName;
 
-    @JsonProperty("u_name")
     @NotEmpty(message = "대표자명이 비어있습니다!")
     @NotBlank(message = "대표자명은 공백만 올 수 없습니다!")
     @Size(max = 128, message = "대표자명은 최대 128글자 까지 작성 가능합니다.")
     private String uName;
 
-    @JsonProperty("business_type")
-    @NotEmpty(message = "사업자구분이 비어있습니다!")
-    @NotBlank(message = "사업자구분은 공백만 올 수 없습니다!")
     @Size(max = 10, message = "사업자구분은 최대 10글자 까지 작성 가능합니다.")
     private String businessType;
 
@@ -54,25 +49,13 @@ public class Seller {
     @Size(max = 128, message = "홈페이지 URL은 최대 128글자 까지 작성 가능합니다.")
     private String homepage;
 
-    @JsonProperty("call_number")
     @NotEmpty(message = "연락처가 비어있습니다!")
     @NotBlank(message = "연락처는 공백만 올 수 없습니다!")
     @Pattern(regexp = "^01(?:0|1|[6-9])[.-]?(\\d{3}|\\d{4})[.-]?(\\d{4})$", message = "연락처 양식이 맞지 않습니다.")
     @Size(max = 20, message = "연락처는 최대 20자리까지 작성 가능합니다.")
     private String callNumber;
 
-    @JsonProperty("business_number")
     @Positive
     @Digits(integer = 10, fraction = 10)
     private Long businessNumber;
-
-    @JsonProperty("created_date")
-    @Temporal(TemporalType.DATE)
-    @NotNull
-    private Date createdDate;
-
-    @JsonProperty("modified_date")
-    @Temporal(TemporalType.DATE)
-    @NotNull
-    private Date modifiedDate;
 }

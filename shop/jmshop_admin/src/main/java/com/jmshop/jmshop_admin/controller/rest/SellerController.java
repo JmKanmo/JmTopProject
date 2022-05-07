@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(path = "/register", produces = "application/json")
+@RequestMapping(path = "/register")
 @RequiredArgsConstructor
 public class SellerController {
     private final SellerService sellerService;
 
-    @PostMapping(path = "/seller", consumes = "application/json")
-    public ResponseEntity<Long> registerSeller(@Valid @RequestBody Seller seller) {
+    @PostMapping(path = "/seller")
+    public ResponseEntity<Long> registerSeller(@Valid Seller seller) {
         return ResponseEntity.status(HttpStatus.OK).body(sellerService.saveSeller(seller));
     }
 }

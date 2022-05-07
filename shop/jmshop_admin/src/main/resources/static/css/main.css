@@ -9,7 +9,6 @@ main 영역(Menu,Contents..)
 
 .menu {
     width: 1000px;
-    height: 33px;
     margin: 0 auto;
 }
 
@@ -21,40 +20,10 @@ main 영역(Menu,Contents..)
     text-align: center;
     font-size: 16px;
     line-height: 33px;
+    margin-bottom: 10px;
 }
 
-.menu .btn_group + .btn_group {
-    margin-left: 14px;
-}
-
-.menu .btn_group:hover {
-    border-color: #454545;
-    font-weight: bold;
-}
-
-.middle_background {
-    width: 1080px;
-    margin: 0 auto;
-    padding: 40px 0 40px;
-}
-
-.menu {
-    width: 1000px;
-    height: 33px;
-    margin: 0 auto;
-}
-
-.menu .btn_group {
-    float: left;
-    border: 1px solid #d1d1d1;
-    width: 322px;
-    height: 31px;
-    text-align: center;
-    font-size: 16px;
-    line-height: 33px;
-}
-
-.menu .btn_group + .btn_group {
+.menu .middle_btn{
     margin-left: 14px;
 }
 

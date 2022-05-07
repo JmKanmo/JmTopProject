@@ -1,38 +1,44 @@
+/**
+ * URL 파서 컨트롤러
+ * **/
 class UrlParser {
     constructor() {
         this.sch = location.search;
     }
 }
 
+/**
+ * 이미지 기능 관련 컨트롤러
+ * **/
 class ImageController {
     constructor() {
         this.productImageInput = document.getElementById("product_image");
-        this.thumbnailImg = document.querySelector(".thumbnail_img");
-        this.resetImageBtn = document.querySelector(".reset_img_btn");
+        this.productThumbnailImg = document.querySelector(".thumbnail_img");
+        this.productResetImageBtn = document.querySelector(".reset_img_btn");
     }
 
-    initImageController() {
-        this.updateThumbnailImage();
-        this.setResetImgBtnClickListener();
+    initProductImageController() {
+        this.updateProductThumbnailImage();
+        this.setProductResetImgBtnClickListener();
     }
 
-    updateThumbnailImage() {
+    updateProductThumbnailImage() {
         const productImageInput = this.productImageInput;
         productImageInput.addEventListener("change", event => {
-            this.readImage(event.target);
+            this.readProductImage(event.target);
         });
     }
 
-    setResetImgBtnClickListener() {
-        const resetImageBtn = this.resetImageBtn;
-        resetImageBtn.addEventListener("click", () => {
+    setProductResetImgBtnClickListener() {
+        const productResetImageBtn = this.productResetImageBtn;
+        productResetImageBtn.addEventListener("click", () => {
             if (confirm("이미지를 초기화 하시겠습니까?")) {
-                this.resetImage();
+                this.resetProductImage();
             }
         });
     }
 
-    readImage(input) {
+    readProductImage(input) {
         let imgFile = input.files;
 
         if (imgFile && imgFile[0]) {
@@ -42,36 +48,90 @@ class ImageController {
 
             if (!fileForms.includes(fileExtension)) {
                 alert("지정 된 이미지 파일만 업로드 가능합니다.");
-                this.resetImage();
+                this.resetProductImage();
                 return;
             } else if (imgFile[0].size >= fileSize) {
                 alert('최대 파일 사이즈는 50MB 입니다.');
-                this.resetImage();
+                this.resetProductImage();
                 return;
             }
             const fileReader = new FileReader();
 
             fileReader.onload = (event) => {
-                this.thumbnailImg.src = event.target.result;
+                this.productThumbnailImg.src = event.target.result;
             }
 
             fileReader.readAsDataURL(input.files[0]);
         }
     }
 
-    resetImage() {
+    resetProductImage() {
         // Assign buffer to file input
         let fileBuffer = new DataTransfer();
         this.productImageInput.files = fileBuffer.files; // <-- according to your file input reference
-        this.thumbnailImg.src = "../image/default_thumbnail.gif"; // set default image
+        this.productThumbnailImg.src = "../image/default_thumbnail.gif"; // set default image
     }
 }
 
-class ProductFormController {
+/**
+ * 각종 기능 유틸리티 컨트롤러
+ * **/
+class UtilController {
     constructor() {
+        this.emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        this.callRegExp = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}/;
+        this.urlRegExp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+    }
+
+    /** 오픈소스 참조 (로딩 중 화면 만들기) **/
+    loadingWithMask() {
+        //화면의 높이와 너비를 구합니다.
+        const maskHeight = $(document).height();
+        const maskWidth = window.document.body.clientWidth;
+
+        //화면에 출력할 마스크를 설정해줍니다.
+        const mask = `<div id='mask' style='position:absolute; z-index:9000; background-color:#000000; display:none; left:0; top:0;'></div>`;
+        let loadingImg = ``;
+
+        loadingImg += `<div id='loadingImg'>`;
+        loadingImg += `<img src='../image/loading_img.gif' style='position: relative; display: block; margin: 0px auto;'/>`;
+        loadingImg += `</div>`;
+
+        //화면에 레이어 추가
+        $('body')
+            .append(mask)
+            .append(loadingImg)
+
+        //마스크의 높이와 너비를 화면 것으로 만들어 전체 화면을 채웁니다.
+        $('#mask').css({
+            'width': maskWidth
+            , 'height': maskHeight
+            , 'opacity': '0.3'
+        });
+
+        //마스크 표시
+        $('#mask').show();
+
+        //로딩중 이미지 표시
+        $('#loadingImg').show();
+    }
+
+    /** 오픈소스 참조 (로딩 중 화면 닫기) **/
+    closeLoadingWithMask() {
+        $('#mask, #loadingImg').hide();
+        $('#mask, #loadingImg').empty();
+    }
+}
+
+/**
+ * 상품 폼 컨트롤러
+ * **/
+class ProductFormController extends UtilController {
+    constructor() {
+        super();
         this.imageController = new ImageController();
-        this.registerForm = document.forms["register_form"];
-        this.registerBtn = document.querySelector(".register_btn");
+        this.productForm = document.forms["product_form"];
+        this.registerBtn = document.querySelector("#product_register_btn");
         this.productNameForm = document.querySelector("#product_name");
         this.productCategoryForm = document.querySelector("#product_category");
         this.productPriceForm = document.querySelector("#product_price");
@@ -99,7 +159,7 @@ class ProductFormController {
     }
 
     submitRegisterForm() {
-        const formData = new FormData(this.registerForm);
+        const formData = new FormData(this.productForm);
         const xhr = new XMLHttpRequest();
 
         xhr.open("POST", "/register/product");
@@ -221,58 +281,197 @@ class ProductFormController {
         this.shippingFeeForm.value = this.shippingFeeForm.options[0].text;
         this.productCouponForm.value = this.productCouponForm.options[0].text;
         this.productDeliveryForm.value = this.productDeliveryForm.options[0].text;
-        this.imageController.resetImage();
-    }
-
-    /** 오픈소스 참조 (로딩 중 화면 만들기) **/
-    loadingWithMask() {
-        //화면의 높이와 너비를 구합니다.
-        const maskHeight = $(document).height();
-        const maskWidth = window.document.body.clientWidth;
-
-        //화면에 출력할 마스크를 설정해줍니다.
-        const mask = `<div id='mask' style='position:absolute; z-index:9000; background-color:#000000; display:none; left:0; top:0;'></div>`;
-        let loadingImg = ``;
-
-        loadingImg += `<div id='loadingImg'>`;
-        loadingImg += `<img src='../image/loading_img.gif' style='position: relative; display: block; margin: 0px auto;'/>`;
-        loadingImg += `</div>`;
-
-        //화면에 레이어 추가
-        $('body')
-            .append(mask)
-            .append(loadingImg)
-
-        //마스크의 높이와 너비를 화면 것으로 만들어 전체 화면을 채웁니다.
-        $('#mask').css({
-            'width': maskWidth
-            , 'height': maskHeight
-            , 'opacity': '0.3'
-        });
-
-        //마스크 표시
-        $('#mask').show();
-
-        //로딩중 이미지 표시
-        $('#loadingImg').show();
-    }
-
-    /** 오픈소스 참조 (로딩 중 화면 닫기) **/
-    closeLoadingWithMask() {
-        $('#mask, #loadingImg').hide();
-        $('#mask, #loadingImg').empty();
+        this.imageController.resetProductImage();
     }
 }
 
+/**
+ * 쿠폰 폼 컨트롤러
+ * **/
+class SellerFormController extends UtilController {
+    constructor() {
+        super();
+        this.sellerForm = document.forms["seller_form"];
+        this.registerBtn = document.querySelector("#seller_register_btn");
+        this.uNameForm = document.querySelector("#seller_name");
+        this.cNameForm = document.querySelector("#company_name");
+        this.businessTypeForm = document.querySelector("#business_type");
+        this.addressForm = document.querySelector("#seller_address");
+        this.emailForm = document.querySelector("#seller_email");
+        this.homepageForm = document.querySelector("#seller_homepage");
+        this.callForm = document.querySelector("#seller_call");
+        this.businessNumberForm = document.querySelector("#seller_business_number");
+    }
+
+    initSellerFormController() {
+        this.setRegisterBtnClickListener();
+    }
+
+    setRegisterBtnClickListener() {
+        this.registerBtn.addEventListener("click", () => {
+            if (this.checkRegisterForm()) {
+                alert('상품 정보를 올바르게 입력해주세요.');
+                return;
+            } else {
+                this.submitRegisterForm();
+            }
+        });
+    }
+
+    submitRegisterForm() {
+        const formData = new FormData(this.sellerForm);
+        const xhr = new XMLHttpRequest();
+
+        xhr.open("POST", "/register/seller");
+
+        xhr.addEventListener("loadend", event => {
+            let status = event.target.status;
+            let responseJSON = JSON.parse(event.target.responseText);
+            let responseText = JSON.stringify(responseJSON, null, 4);
+
+            this.initValidationErrorMessage();
+
+            if (status >= 400 && status <= 500) {
+                this.writeValidationErrorMessage(responseJSON);
+                alert(`!!판매자 정보 저장 작업 중에 에러 발생!! \n\n error message: ${responseText}`);
+            } else {
+                alert('판매자 정보 등록 완료');
+                this.resetRegisterForm();
+            }
+            this.closeLoadingWithMask();
+        });
+
+        xhr.addEventListener("error", event => {
+            alert('오류가 발생하여 상품 정보 요청이 전송되지 않았습니다.');
+            this.closeLoadingWithMask();
+        });
+
+        xhr.send(formData);
+        this.loadingWithMask();
+    }
+
+    writeValidationErrorMessage(responseJSON) {
+        const errorList = responseJSON['errorList'];
+
+        errorList.forEach(error => {
+            const name = error['field'];
+            const invalidData = error['invalidValue'];
+            const message = error['message'];
+            const validationErrMsg = `${message}`;
+
+            switch (name) {
+                case 'cName' :
+                    const cNameValidation = document.querySelector("#cname_validation");
+                    cNameValidation.textContent = validationErrMsg;
+                    break;
+
+                case 'uName':
+                    const uNameValidation = document.querySelector("#uname_validation");
+                    uNameValidation.textContent = validationErrMsg;
+                    break;
+
+                case 'businessType':
+                    const businessTypeValidation = document.querySelector("#business_type_validation");
+                    businessTypeValidation.textContent = validationErrMsg;
+                    break;
+
+                case 'address':
+                    const addressValidation = document.querySelector("#address_validation");
+                    addressValidation.textContent = validationErrMsg;
+                    break;
+
+                case 'email':
+                    const emailValidation = document.querySelector("#email_validation");
+                    emailValidation.textContent = validationErrMsg;
+                    break;
+
+                case 'homepage':
+                    const homepageValidation = document.querySelector("#seller_homepage_validation");
+                    homepageValidation.textContent = validationErrMsg;
+                    break;
+
+                case 'callNumber':
+                    const callNumberValidation = document.querySelector("#seller_call_validation");
+                    callNumberValidation.textContent = validationErrMsg;
+                    break;
+
+                case 'businessNumber':
+                    const businessNumberValidation = document.querySelector("#seller_business_number_validation");
+                    businessNumberValidation.textContent = validationErrMsg;
+                    break;
+            }
+        });
+    }
+
+    initValidationErrorMessage() {
+        const cNameValidation = document.querySelector("#cname_validation");
+        cNameValidation.textContent = ``;
+
+        const uNameValidation = document.querySelector("#uname_validation");
+        uNameValidation.textContent = ``;
+
+        const businessTypeValidation = document.querySelector("#business_type_validation");
+        businessTypeValidation.textContent = ``;
+
+        const addressValidation = document.querySelector("#address_validation");
+        addressValidation.textContent = ``;
+
+        const emailValidation = document.querySelector("#email_validation");
+        emailValidation.textContent = ``;
+
+        const homepageValidation = document.querySelector("#seller_homepage_validation");
+        homepageValidation.textContent = ``;
+
+        const callNumberValidation = document.querySelector("#seller_call_validation");
+        callNumberValidation.textContent = ``;
+
+        const businessNumberValidation = document.querySelector("#seller_business_number_validation");
+        businessNumberValidation.textContent = ``;
+    }
+
+    checkRegisterForm() {
+        if (
+            !this.uNameForm.value
+            || !this.cNameForm.value
+            || !this.businessTypeForm.value
+            || !this.addressForm.value
+            || (this.emailForm.value == '' || !this.emailRegExp.test(this.emailForm.value))
+            || (this.homepageForm.value == '' || !this.urlRegExp.test(this.homepageForm.value))
+            || (this.callForm.value == '' || !this.callRegExp.test(this.callForm.value))
+            || (!this.businessNumberForm.value || Number.isNaN(parseInt(this.businessNumberForm.value)))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    resetRegisterForm() {
+        this.uNameForm.value = "";
+        this.cNameForm.value = "";
+        this.businessTypeForm.value = this.businessTypeForm.options[0].text;
+        this.addressForm.value = "";
+        this.emailForm.value = "";
+        this.addressForm.value = "";
+        this.homepageForm.value = "";
+        this.callForm.value = "";
+        this.businessNumberForm.value = "";
+    }
+}
+
+/**
+ * JmShop Form 전체 컨트롤러
+ * **/
 class JmShopFormController {
     constructor() {
         this.imageController = new ImageController();
         this.productFormController = new ProductFormController();
+        this.sellerFormController = new SellerFormController();
     }
 
     initJmShopFormController() {
-        this.imageController.initImageController();
+        this.imageController.initProductImageController();
         this.productFormController.initProductFormController();
+        this.sellerFormController.initSellerFormController();
     }
 }
 

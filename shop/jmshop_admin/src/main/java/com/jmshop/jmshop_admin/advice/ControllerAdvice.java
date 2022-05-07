@@ -24,11 +24,18 @@ import java.util.stream.StreamSupport;
 @RestControllerAdvice(basePackages = "com.jmshop.jmshop_admin.controller")
 public class ControllerAdvice {
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<?> exceptionHandler(Exception e) {
+    public ResponseEntity<?> exceptionHandler(Exception e, HttpServletRequest httpServletRequest) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("error cause: " + e.getCause());
         stringBuilder.append("error message: " + e.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(stringBuilder);
+
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setErrorList(new ArrayList<>());
+        errorResponse.setMessage(stringBuilder.toString());
+        errorResponse.setRequestUrl(httpServletRequest.getRequestURI());
+        errorResponse.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+        errorResponse.setResultCode("FAIL");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
 
     @ExceptionHandler(value = BindException.class)

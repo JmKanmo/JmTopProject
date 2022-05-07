@@ -8,9 +8,12 @@ import java.util.Optional;
 
 @Controller("/")
 public class MainController {
+    private static final Optional emptyOptional = Optional.empty();
+
     @GetMapping
     public String main(Model model) {
-        model.addAttribute("product", Optional.empty());
+        model.addAttribute("product", emptyOptional);
+        model.addAttribute("seller", emptyOptional);
         return "main";
     }
 }

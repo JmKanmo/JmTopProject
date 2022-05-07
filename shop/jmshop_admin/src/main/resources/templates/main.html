@@ -10,12 +10,16 @@
                 상품 등록
             </a>
 
-            <a href="/" class="btn_group">
+            <a href="#seller_form" class="btn_group middle_btn">
+                판매자 등록
+            </a>
+
+            <a href="/" class="btn_group middle_btn">
                 쿠폰 등록
             </a>
 
             <a href="/" class="btn_group">
-                판매자 등록
+                택배사 등록
             </a>
         </nav>
 
@@ -24,6 +28,7 @@
                 <h3>등록 양식</h3>
             </div>
 
+            <!-- 상품 폼  -->
             <div class="content_container">
                 <div class="content_title">
                     <h3>상품 등록</h3>
@@ -31,7 +36,7 @@
 
                 <div class="div_contents" id="product_form">
                     <form action="/register/product" method="POST" class="register_form"
-                          name="register_form" enctype="multipart/form-data"
+                          name="product_form" enctype="multipart/form-data"
                           th:object="${product}">
                         <label for="product_name">상품명</label>
                         <p id="name_validation" class="validation_error">
@@ -120,7 +125,93 @@
                             <option>추가 안함</option>
                         </select>
 
-                        <button class="register_btn" type="button">등록하기</button>
+                        <button class="register_btn" id="product_register_btn" type="button">등록하기</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 판매자 폼  -->
+            <div class="content_container">
+                <div class="content_title">
+                    <h3>판매자 등록</h3>
+                </div>
+
+                <div class="div_contents" id="seller_form">
+                    <form action="/register/seller" method="POST"
+                          class="register_form" name="seller_form" th:object="${seller}">
+
+                        <label for="seller_name">판매자명</label>
+                        <p id="uname_validation" class="validation_error">
+                            <span class="blind">유효성 에러 문구</span>
+                        </p>
+                        <input type="text" id="seller_name" name="seller_name" maxlength="128"
+                               class="input_form" placeholder="판매자명을 입력해주세요. (최대 128글자, 전체 상품명 공백 및 스페이스바 입력불가)"
+                               th:field="*{uName}">
+
+                        <label for="company_name">회사명</label>
+                        <p id="cname_validation" class="validation_error">
+                            <span class="blind">유효성 에러 문구</span>
+                        </p>
+                        <input type="text" id="company_name" name="company_name" maxlength="128"
+                               class="input_form" placeholder="회사명을 입력해주세요. (최대 128글자, 전체 상품명 공백 및 스페이스바 입력불가)"
+                               th:field="*{cName}">
+
+                        <label for="business_type">사업자 구분</label>
+                        <p id="business_type_validation" class="validation_error">
+                            <span class="blind">유효성 에러 문구</span>
+                        </p>
+                        <select class="select_form" id="business_type" name="business_type">
+                            <option>사업자구분 없음</option>
+                            <option>일반사업자</option>
+                            <option>과세사업자</option>
+                            <option>면세사업자</option>
+                            <option>일반과세자</option>
+                            <option>간이과세자</option>
+                            <option>법인사업자</option>
+                        </select>
+
+                        <label for="seller_address">주소 입력</label>
+                        <p id="address_validation" class="validation_error">
+                            <span class="blind">유효성 에러 문구</span>
+                        </p>
+                        <input type="text" id="seller_address" class="input_form" maxlength="128"
+                               placeholder="주소를 입력해주세요. (최대 128글자, 전체 상품명 공백 및 스페이스바 입력불가)"
+                               name="seller_address" th:field="*{address}">
+
+                        <label for="seller_email">이메일 입력</label>
+                        <p id="email_validation" class="validation_error">
+                            <span class="blind">유효성 에러 문구</span>
+                        </p>
+                        <input type="email" id="seller_email" class="input_form" maxlength="128"
+                               placeholder="이메일을 입력해주세요. (최대 128글자, 전체 상품명 공백 및 스페이스바 입력불가)"
+                               name="seller_email" th:field="*{email}">
+
+
+                        <label for="seller_homepage">URL 입력</label>
+                        <p id="seller_homepage_validation" class="validation_error">
+                            <span class="blind">유효성 에러 문구</span>
+                        </p>
+                        <input type="email" id="seller_homepage" class="input_form" maxlength="128"
+                               placeholder="홈페이지 URL을 입력해주세요. (최대 128글자만 입력 가능합니다.)"
+                               name="seller_homepage" th:field="*{homepage}">
+
+                        <label for="seller_call">연락처 입력</label>
+                        <p id="seller_call_validation" class="validation_error">
+                            <span class="blind">유효성 에러 문구</span>
+                        </p>
+                        <input type="text" id="seller_call" class="input_form"
+                               placeholder="연락처를 입력해주세요. (최대 20글자만 입력 가능합니다.)"
+                               name="seller_call" th:field="*{callNumber}">
+
+                        <label for="seller_business_number">사업자 등록번호 입력</label>
+                        <p id="seller_business_number_validation" class="validation_error">
+                            <span class="blind">유효성 에러 문구</span>
+                        </p>
+                        <input type="number" id="seller_business_number" class="input_form"
+                               placeholder="사업자 등록번호를 입력해주세요. (최대 10글자만 입력 가능합니다.)"
+                               name="seller_business_number" th:field="*{businessNumber}">
+
+                        <button class="register_btn" id="seller_register_btn" type="button">등록하기</button>
                     </form>
                 </div>
             </div>

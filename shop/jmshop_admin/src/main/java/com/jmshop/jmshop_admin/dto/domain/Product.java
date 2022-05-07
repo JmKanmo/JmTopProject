@@ -1,20 +1,17 @@
 package com.jmshop.jmshop_admin.dto.domain;
 
-import com.jmshop.jmshop_admin.listener.DomainEventListener;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.Date;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EntityListeners(value = DomainEventListener.class)
 @ToString
-public class Product {
+public class Product extends BaseTimeEntity{
     @Id
     @GeneratedValue
     @Column(name = "product_id")
@@ -43,11 +40,6 @@ public class Product {
     @Lob
     private byte[] image;
 
-    @Temporal(TemporalType.DATE)
-    private Date createdDate;
-
-    @Temporal(TemporalType.DATE)
-    private Date modifiedDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
