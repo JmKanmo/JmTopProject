@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(path = "/register", produces = "application/json")
+@RequestMapping(path = "/register")
 @RequiredArgsConstructor
 public class CouponController {
     private final CouponService couponService;
 
-    @PostMapping(path = "/coupon", consumes = "application/json")
-    public ResponseEntity<Long> registerCoupon(@Valid @RequestBody Coupon coupon) {
+    @PostMapping(path = "/coupon")
+    public ResponseEntity<Long> registerCoupon(@Valid Coupon coupon) {
         return ResponseEntity.status(HttpStatus.OK).body(couponService.saveCoupon(coupon));
     }
 }

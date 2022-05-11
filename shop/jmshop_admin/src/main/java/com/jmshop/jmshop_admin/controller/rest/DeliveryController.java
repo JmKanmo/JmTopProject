@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(path = "/register", produces = "application/json")
+@RequestMapping(path = "/register")
 @RequiredArgsConstructor
 public class DeliveryController {
     private final DeliveryService deliveryService;
 
-    @PostMapping(path = "/delivery", consumes = "application/json")
-    public ResponseEntity<Long> registerDelivery(@Valid @RequestBody Delivery delivery) {
+    @PostMapping(path = "/delivery")
+    public ResponseEntity<Long> registerDelivery(@Valid Delivery delivery) {
         return ResponseEntity.status(HttpStatus.OK).body(deliveryService.saveDelivery(delivery));
     }
 }

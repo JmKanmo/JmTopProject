@@ -286,7 +286,7 @@ class ProductFormController extends UtilController {
 }
 
 /**
- * 쿠폰 폼 컨트롤러
+ * 판매자 폼 컨트롤러
  * **/
 class SellerFormController extends UtilController {
     constructor() {
@@ -310,7 +310,7 @@ class SellerFormController extends UtilController {
     setRegisterBtnClickListener() {
         this.registerBtn.addEventListener("click", () => {
             if (this.checkRegisterForm()) {
-                alert('상품 정보를 올바르게 입력해주세요.');
+                alert('판매자 정보를 올바르게 입력해주세요.');
                 return;
             } else {
                 this.submitRegisterForm();
@@ -321,8 +321,9 @@ class SellerFormController extends UtilController {
     submitRegisterForm() {
         const formData = new FormData(this.sellerForm);
         const xhr = new XMLHttpRequest();
+        const param = `?businessType=${formData.get("business_type")}`;
 
-        xhr.open("POST", "/register/seller");
+        xhr.open("POST", "/register/seller" + param);
 
         xhr.addEventListener("loadend", event => {
             let status = event.target.status;
@@ -342,7 +343,7 @@ class SellerFormController extends UtilController {
         });
 
         xhr.addEventListener("error", event => {
-            alert('오류가 발생하여 상품 정보 요청이 전송되지 않았습니다.');
+            alert('오류가 발생하여 판매자 정보 요청이 전송되지 않았습니다.');
             this.closeLoadingWithMask();
         });
 
@@ -459,6 +460,159 @@ class SellerFormController extends UtilController {
 }
 
 /**
+ * 쿠폰 폼 컨트롤러
+ */
+class CouponFormController extends UtilController {
+    constructor() {
+        super();
+        this.couponForm = document.forms["coupon_form"];
+        this.registerBtn = document.querySelector("#coupon_register_btn");
+        this.couponNameForm = document.querySelector("#coupon_name");
+        this.couponCategoryForm = document.querySelector("#coupon_category");
+        this.couponDescriptionForm = document.querySelector("#coupon_description");
+        this.couponPriceLimitForm = document.querySelector("#coupon_price_limit");
+        this.couponMaxDiscountPriceForm = document.querySelector("#coupon_max_discount_price");
+        this.couponDiscountPercentForm = document.querySelector("#coupon_discount_percent");
+        this.couponExpirationDateForm = document.querySelector("#coupon_expiration_date");
+    }
+
+    initCouponFormController() {
+        this.setRegisterBtnClickListener();
+    }
+
+    setRegisterBtnClickListener() {
+        this.registerBtn.addEventListener("click", () => {
+            if (this.checkRegisterForm()) {
+                alert('쿠폰 정보를 올바르게 입력해주세요.');
+                return;
+            } else {
+                this.submitRegisterForm();
+            }
+        });
+    }
+
+    submitRegisterForm() {
+        const formData = new FormData(this.couponForm);
+        const xhr = new XMLHttpRequest();
+
+        xhr.open("POST", "/register/coupon");
+
+        xhr.addEventListener("loadend", event => {
+            let status = event.target.status;
+            let responseJSON = JSON.parse(event.target.responseText);
+            let responseText = JSON.stringify(responseJSON, null, 4);
+
+            this.initValidationErrorMessage();
+
+            if (status >= 400 && status <= 500) {
+                this.writeValidationErrorMessage(responseJSON);
+                alert(`!!쿠폰 정보 저장 작업 중에 에러 발생!! \n\n error message: ${responseText}`);
+            } else {
+                alert('쿠폰 정보 등록 완료');
+                this.resetRegisterForm();
+            }
+            this.closeLoadingWithMask();
+        });
+
+        xhr.addEventListener("error", event => {
+            alert('오류가 발생하여 쿠폰 정보 요청이 전송되지 않았습니다.');
+            this.closeLoadingWithMask();
+        });
+
+        xhr.send(formData);
+        this.loadingWithMask();
+    }
+
+    writeValidationErrorMessage(responseJSON) {
+        const errorList = responseJSON['errorList'];
+
+        errorList.forEach(error => {
+            const name = error['field'];
+            const invalidData = error['invalidValue'];
+            const message = error['message'];
+            const validationErrMsg = `${message}`;
+
+            switch (name) {
+                case 'name' :
+                    const couponNameValidation = document.querySelector("#coupon_name_validation");
+                    couponNameValidation.textContent = validationErrMsg;
+                    break;
+
+                case 'description':
+                    const couponDescriptionValidation = document.querySelector("#coupon_description_validation");
+                    couponDescriptionValidation.textContent = validationErrMsg;
+                    break;
+
+                case 'priceLimit':
+                    const couponPriceLimitValidation = document.querySelector("#coupon_price_limit_validation");
+                    couponPriceLimitValidation.textContent = validationErrMsg;
+                    break;
+
+                case 'maxDiscountPrice':
+                    const couponMaxDiscountPriceValidation = document.querySelector("#coupon_max_discount_price_validation");
+                    couponMaxDiscountPriceValidation.textContent = validationErrMsg;
+                    break;
+
+                case 'discountPercent':
+                    const couponDiscountPercentValidation = document.querySelector("#coupon_discount_percent_validation");
+                    couponDiscountPercentValidation.textContent = validationErrMsg;
+                    break;
+
+                case 'expirationDate':
+                    const couponExpirationDateValidation = document.querySelector("#coupon_expiration_date_validation");
+                    couponExpirationDateValidation.textContent = validationErrMsg;
+                    break;
+            }
+        });
+    }
+
+    initValidationErrorMessage() {
+        const couponNameValidation = document.querySelector("#coupon_name_validation");
+        couponNameValidation.textContent = ``;
+
+        const couponDescriptionValidation = document.querySelector("#coupon_description_validation");
+        couponDescriptionValidation.textContent = ``;
+
+        const couponPriceLimitValidation = document.querySelector("#coupon_price_limit_validation");
+        couponPriceLimitValidation.textContent = ``;
+
+        const couponMaxDiscountPriceValidation = document.querySelector("#coupon_max_discount_price_validation");
+        couponMaxDiscountPriceValidation.textContent = ``;
+
+        const couponDiscountPercentValidation = document.querySelector("#coupon_discount_percent_validation");
+        couponDiscountPercentValidation.textContent = ``;
+
+        const couponExpirationDateValidation = document.querySelector("#coupon_expiration_date_validation");
+        couponExpirationDateValidation.textContent = ``;
+    }
+
+    checkRegisterForm() {
+        if (
+            !this.couponNameForm.value
+            || !this.couponCategoryForm.value
+            || !this.couponDescriptionForm.value
+            || (!this.couponPriceLimitForm.value || Number.isNaN(parseInt(this.couponPriceLimitForm.value)))
+            || (!this.couponMaxDiscountPriceForm.value || Number.isNaN(parseInt(this.couponMaxDiscountPriceForm.value)))
+            || (!this.couponDiscountPercentForm.value || Number.isNaN(parseInt(this.couponDiscountPercentForm.value)))
+            || !this.couponExpirationDateForm.value) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    resetRegisterForm() {
+        this.couponNameForm.value = "";
+        this.couponCategoryForm.value = this.couponCategoryForm.options[0].text;
+        this.couponDescriptionForm.value = "";
+        this.couponPriceLimitForm.value = "";
+        this.couponMaxDiscountPriceForm.value = "";
+        this.couponDiscountPercentForm.value = "";
+        this.couponExpirationDateForm.value = "";
+    }
+}
+
+/**
  * JmShop Form 전체 컨트롤러
  * **/
 class JmShopFormController {
@@ -466,12 +620,14 @@ class JmShopFormController {
         this.imageController = new ImageController();
         this.productFormController = new ProductFormController();
         this.sellerFormController = new SellerFormController();
+        this.couponFormController = new CouponFormController();
     }
 
     initJmShopFormController() {
         this.imageController.initProductImageController();
         this.productFormController.initProductFormController();
         this.sellerFormController.initSellerFormController();
+        this.couponFormController.initCouponFormController();
     }
 }
 

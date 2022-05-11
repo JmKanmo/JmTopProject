@@ -163,3 +163,4 @@ build/
 *.bin
 *.gz
 *.log
+.idea/

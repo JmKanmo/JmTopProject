@@ -11,7 +11,6 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Date;
 
-@Builder
 @Entity
 @Data
 @NoArgsConstructor
