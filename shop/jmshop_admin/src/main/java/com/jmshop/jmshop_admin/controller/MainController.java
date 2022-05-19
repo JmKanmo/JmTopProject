@@ -14,6 +14,7 @@ public class MainController {
         model.addAttribute("product", JmUtil.ofEmpty());
         model.addAttribute("seller", JmUtil.ofEmpty());
         model.addAttribute("coupon", JmUtil.ofEmpty());
+        model.addAttribute("category", JmUtil.ofEmpty());
         return "main";
     }
 }

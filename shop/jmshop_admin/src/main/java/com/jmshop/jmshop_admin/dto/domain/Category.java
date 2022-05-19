@@ -17,25 +17,14 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Category {
+public class Category extends BaseTimeEntity {
     @Id
     @GeneratedValue
     @Column(name = "category_id")
     private Long id;
 
-    @JsonProperty("category_name")
     @NotEmpty(message = "카테고리명이 비어있습니다!")
     @NotBlank(message = "카테고리명은 공백만 올 수 없습니다!")
     @Size(max = 50, message = "카테고리명은 최대 50글자 까지 작성 가능합니다.")
     private String name;
-
-    @JsonProperty("created_date")
-    @Temporal(TemporalType.DATE)
-    @NotNull
-    private Date createdDate;
-
-    @JsonProperty("modified_date")
-    @Temporal(TemporalType.DATE)
-    @NotNull
-    private Date modifiedDate;
 }

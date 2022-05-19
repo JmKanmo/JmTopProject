@@ -49,7 +49,7 @@
                         <label for="product_category">상품 카테고리</label>
                         <select class="select_form" id="product_category" name="product_category">
                             <!-- 쿠폰 추후 추가 예정 -->
-                            <option>카테고리 없음</option>
+                            <option value="0">카테고리 없음</option>
                         </select>
 
                         <label for="product_price">상품 가격</label>
@@ -92,7 +92,7 @@
                             <span class="blind">유효성 에러 문구</span>
                         </p>
                         <select class="select_form" id="shipping_fee" name="shipping_fee">
-                            <option>배송비없음</option>
+                            <option value="0">배송비없음</option>
                             <option>1000</option>
                             <option>2000</option>
                             <option>3000</option>
@@ -113,6 +113,11 @@
                                class="input_form" placeholder="상품 할인율(%)을 입력해주세요. (% 생략, 최소 0% ~ 최대 100% 범위)"
                                name="product_discount" th:field="*{discount}">
 
+                        <label for="product_seller">판매자 추가</label>
+                        <select class="select_form" id="product_seller" name="product_seller">
+                            <option>추가 안함</option>
+                        </select>
+
                         <label for="product_delivery">택배사 추가</label>
                         <select class="select_form" id="product_delivery" name="product_delivery">
                             <!-- 쿠폰 추후 추가 예정 -->
@@ -120,6 +125,28 @@
                         </select>
 
                         <button class="register_btn" id="product_register_btn" type="button">등록하기</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 카테고리 폼  -->
+            <div class="content_container">
+                <div class="content_title">
+                    <h3>카테고리 등록</h3>
+                </div>
+
+                <div class="div_contents" id="category_form">
+                    <form action="/register/category" method="POST"
+                          class="register_form" name="category_form" th:object="${category}">
+
+                        <label for="category_name">카테고리명</label>
+                        <p id="category_name_validation" class="validation_error">
+                            <span class="blind">유효성 에러 문구</span>
+                        </p>
+                        <input type="text" id="category_name" name="category_name" maxlength="50"
+                               class="input_form" placeholder="카테고리명을 입력해주세요. (최대 50글자, 전체 카테고리명 공백 및 스페이스바 입력불가)"
+                               th:field="*{name}">
+                        <button class="register_btn" id="category_register_btn" type="button">등록하기</button>
                     </form>
                 </div>
             </div>

@@ -140,11 +140,53 @@ class ProductFormController extends UtilController {
         this.shippingFeeForm = document.querySelector("#shipping_fee");
         this.productDiscountForm = document.querySelector("#product_discount");
         this.productCouponForm = document.querySelector("#product_coupon");
+        this.productSellerForm = document.querySelector("#product_seller");
         this.productDeliveryForm = document.querySelector("#product_delivery");
     }
 
     initProductFormController() {
+        this.initCategoryForm();
         this.setRegisterBtnClickListener();
+    }
+
+    initCategoryForm() {
+        // init product Category form
+        const categoryXhr = new XMLHttpRequest();
+        categoryXhr.open("GET", "/register/category");
+
+        categoryXhr.addEventListener("loadend", event => {
+            let status = event.target.status;
+
+            if (status === 200) {
+                let categoryList = JSON.parse(event.target.responseText);
+                let productCategoryForm = this.productCategoryForm;
+
+                for (let i = 0; i < categoryList.length; i++) {
+                    productCategoryForm.add(new Option(categoryList[i]["name"], categoryList[i]["id"]));
+                }
+            }
+        });
+        categoryXhr.send();
+
+        // init seller category form
+        const sellerXhr = new XMLHttpRequest();
+        sellerXhr.open("GET", "/register/seller")
+
+        sellerXhr.addEventListener("loadend", event => {
+            let status = event.target.status;
+
+            if (status === 200) {
+                let sellerList = JSON.parse(event.target.responseText);
+                let productSellerForm = this.productSellerForm;
+
+                for (let i = 0; i < sellerList.length; i++) {
+                    productSellerForm.add(new Option(`${sellerList[i]["cname"]} - ${sellerList[i]["uname"]}`, sellerList[i]["id"]));
+                }
+            }
+        });
+        sellerXhr.send();
+
+        // TODO init delivery category form
     }
 
     setRegisterBtnClickListener() {
@@ -161,8 +203,9 @@ class ProductFormController extends UtilController {
     submitRegisterForm() {
         const formData = new FormData(this.productForm);
         const xhr = new XMLHttpRequest();
+        const params = `?categoryId=${this.productCategoryForm.value}&shippingFee=${this.shippingFeeForm.value}&sellerId=${this.productSellerForm.value}`;
 
-        xhr.open("POST", "/register/product");
+        xhr.open("POST", "/register/product" + params);
 
         xhr.addEventListener("loadend", event => {
             let status = event.target.status;
@@ -256,7 +299,8 @@ class ProductFormController extends UtilController {
     checkRegisterForm() {
         if (
             !this.productNameForm.value
-            || !this.productCategoryForm.value
+            || (!this.productCategoryForm.value || this.productCategoryForm.value === this.productCategoryForm.options[0].value)
+            || (!this.productSellerForm.value || this.productSellerForm.value === this.productSellerForm.options[0].value)
             || (!this.productPriceForm.value || Number.isNaN(parseInt(this.productPriceForm.value))
                 || Number(this.productPriceForm.value) > Number.MAX_SAFE_INTEGER)
             || (!this.shippingFeeForm.value || Number.isNaN(parseInt(this.shippingFeeForm.value))
@@ -279,9 +323,104 @@ class ProductFormController extends UtilController {
         this.productDescriptionForm.value = "";
         this.productTagForm.value = "";
         this.shippingFeeForm.value = this.shippingFeeForm.options[0].text;
-        this.productCouponForm.value = this.productCouponForm.options[0].text;
+        this.productSellerForm.value = this.productSellerForm.options[0].text;
         this.productDeliveryForm.value = this.productDeliveryForm.options[0].text;
         this.imageController.resetProductImage();
+    }
+}
+
+/**
+ * 카테고리 폼 컨트롤러
+ */
+class CategoryFormController extends UtilController {
+    constructor() {
+        super();
+        this.categoryForm = document.forms["category_form"];
+        this.registerBtn = document.querySelector("#category_register_btn");
+        this.categoryNameForm = document.querySelector("#category_name");
+    }
+
+    initCategoryFormController() {
+        this.setRegisterBtnClickListener();
+    }
+
+    setRegisterBtnClickListener() {
+        this.registerBtn.addEventListener("click", () => {
+            if (this.checkRegisterForm()) {
+                alert('판매자 정보를 올바르게 입력해주세요.');
+                return;
+            } else {
+                this.submitRegisterForm();
+            }
+        });
+    }
+
+    submitRegisterForm() {
+        const formData = new FormData(this.categoryForm);
+        const xhr = new XMLHttpRequest();
+
+        xhr.open("POST", "/register/category");
+
+        xhr.addEventListener("loadend", event => {
+            let status = event.target.status;
+            let responseJSON = JSON.parse(event.target.responseText);
+            let responseText = JSON.stringify(responseJSON, null, 4);
+
+            this.initValidationErrorMessage();
+
+            if (status >= 400 && status <= 500) {
+                this.writeValidationErrorMessage(responseJSON);
+                alert(`!!카테고리 정보 저장 작업 중에 에러 발생!! \n\n error message: ${responseText}`);
+            } else {
+                alert('카테고리 정보 등록 완료');
+                this.resetRegisterForm();
+            }
+            this.closeLoadingWithMask();
+        });
+
+        xhr.addEventListener("error", event => {
+            alert('오류가 발생하여 카테고리 정보 요청이 전송되지 않았습니다.');
+            this.closeLoadingWithMask();
+        });
+
+        xhr.send(formData);
+        this.loadingWithMask();
+    }
+
+    writeValidationErrorMessage(responseJSON) {
+        const errorList = responseJSON['errorList'];
+
+        errorList.forEach(error => {
+            const name = error['field'];
+            const invalidData = error['invalidValue'];
+            const message = error['message'];
+            const validationErrMsg = `${message}`;
+
+            switch (name) {
+                case 'name' :
+                    const categoryNameValidation = document.querySelector("#category_name_validation");
+                    categoryNameValidation.textContent = validationErrMsg;
+                    break;
+            }
+        });
+    }
+
+    initValidationErrorMessage() {
+        const categoryNameValidation = document.querySelector("#category_name_validation");
+        categoryNameValidation.textContent = ``;
+    }
+
+    checkRegisterForm() {
+        if (
+            !this.categoryNameForm.value) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    resetRegisterForm() {
+        this.categoryNameForm.value = "";
     }
 }
 
@@ -621,6 +760,7 @@ class JmShopFormController {
         this.productFormController = new ProductFormController();
         this.sellerFormController = new SellerFormController();
         this.couponFormController = new CouponFormController();
+        this.categoryFormController = new CategoryFormController();
     }
 
     initJmShopFormController() {
@@ -628,6 +768,7 @@ class JmShopFormController {
         this.productFormController.initProductFormController();
         this.sellerFormController.initSellerFormController();
         this.couponFormController.initCouponFormController();
+        this.categoryFormController.initCategoryFormController();
     }
 }
 

@@ -19,5 +19,6 @@
 
 .header_container .header .logo a {
     color: #fff;
+    cursor: pointer;
     font-size: 40px;
 }
