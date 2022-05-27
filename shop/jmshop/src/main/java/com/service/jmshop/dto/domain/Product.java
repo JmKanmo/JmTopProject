@@ -1,4 +1,4 @@
-package com.jmshop.jmshop_admin.dto.domain;
+package com.service.jmshop.dto.domain;
 
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
@@ -10,7 +10,8 @@ import javax.validation.constraints.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product extends BaseTimeEntity {
+@EqualsAndHashCode(callSuper=false)
+public class Product extends BaseTimeEntity{
     @Id
     @GeneratedValue
     @Column(name = "product_id")

@@ -16,9 +16,10 @@ spring:
 
   datasource:
     url: jdbc:mariadb://192.168.35.232:3306/jmshop_mariadb
-    username: junmokang
-    password: wnsah12
     driver-class-name: org.mariadb.jdbc.Driver
+    hikari:
+      username: junmokang
+      password: wnsah12
 
   jpa:
     database-platform: org.hibernate.dialect.MariaDB103Dialect

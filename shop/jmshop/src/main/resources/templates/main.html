@@ -4,22 +4,6 @@
       layout:decorate="~{layouts/layout}">
 
 <div layout:fragment="content">
-    <form class="test_form" method="post" th:action="@{/userinfo/create}" th:object="${userInfo}" enctype="multipart/form-data">
-        <input id="firstName" placeholder="Enter First Name" required type="text" th:field="*{firstName}"/>
-        <input id="lastName" placeholder="Enter Last Name" required type="text" th:field="*{lastName}"/>
-        <select id="role" required th:field="*{role}">
-            <option value="">Select a role</option>
-            <option value="GUEST">GUEST</option>
-            <option value="USER">USER</option>
-            <option value="ADMIN">ADMIN</option>
-        </select>
-
-
-        <label for="product_image">상품 이미지 </label>
-        <input type="file" id="product_image" name="product_image"
-               accept="image/jpeg, image/jpg, image/png, image/gif, image/bmp, image/pdf">
-
-        <input type="submit" value="Create User">
-    </form>
+    <h1>쇼핑몰 페이지 입니다.</h1>
 </div>
 </html>
