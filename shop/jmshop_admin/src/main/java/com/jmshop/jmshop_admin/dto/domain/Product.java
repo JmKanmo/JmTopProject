@@ -36,8 +36,8 @@ public class Product extends BaseTimeEntity {
     @Range(min = 0, max = 100, message = "할인율은 0% ~ 100% 범위 내에서 작성 가능합니다.")
     private Integer discount;
 
-    @Lob
-    private byte[] image;
+    @Size(max = 65535, message = "정적파일 UUID는 최대 65535글자 까지 작성 가능합니다.")
+    private String staticFileUuid;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")

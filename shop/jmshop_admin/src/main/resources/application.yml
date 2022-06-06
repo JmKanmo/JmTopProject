@@ -48,6 +48,15 @@ logging:
 #    org.springframework: INFO
 #    org.springframework.web: DEBUG
 
+ftp:
+  ip: 192.168.35.211
+  port: 21
+  id: junmokang
+  password: wnsah12
+  directory: jmservice/jmshop/static_files
+  timeout: 10
+  encoding: UTF-8
+
 
 
 

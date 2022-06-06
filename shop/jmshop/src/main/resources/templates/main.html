@@ -5,5 +5,18 @@
 
 <div layout:fragment="content">
     <h1>쇼핑몰 페이지 입니다.</h1>
+    <form action="/register/product" method="POST" class="register_form"
+          name="product_form" enctype="multipart/form-data">
+        <label for="product_image">상품 이미지 </label>
+        <div class="product_image_container">
+            <input type="file" id="product_image" name="product_image"
+                   class="file_form"
+                   accept="image/jpeg, image/jpg, image/png, image/gif, image/bmp, image/pdf">
+            <img class="thumbnail_img" src="../image/default_thumbnail.gif" title="상품이미지">
+            <img src="ftp://junmo:wnsah12@127.0.0.1/home/vsftpd/junmo/hi.png"/>
+
+        </div>
+        <button class="register_btn" id="product_register_btn" type="button">등록하기</button>
+    </form>
 </div>
 </html>
