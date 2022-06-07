@@ -42,7 +42,7 @@ class ImageController {
         let imgFile = input.files;
 
         if (imgFile && imgFile[0]) {
-            let fileForms = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'pdf'];
+            let fileForms = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'pdf', 'GIF', 'mp4', 'jfif'];
             let fileSize = 50 * 1024 * 1024;
             let fileExtension = input.value.slice(input.value.lastIndexOf(".") + 1)
 

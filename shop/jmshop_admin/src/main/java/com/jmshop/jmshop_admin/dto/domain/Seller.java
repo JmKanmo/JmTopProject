@@ -14,7 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class Seller extends BaseTimeEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "seller_id")
     private Long id;
 

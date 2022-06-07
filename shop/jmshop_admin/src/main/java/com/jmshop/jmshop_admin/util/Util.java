@@ -18,13 +18,14 @@ public class Util {
     public static String getStaticFileUUID(MultipartFile multipartFile) {
         String fileName = multipartFile.getOriginalFilename();
         String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
-        String uuid = LocalDateTime.now() + "product-image" + UUID.nameUUIDFromBytes(fileName.getBytes(StandardCharsets.UTF_8)) + extension;
+        String uuid = LocalDateTime.now() + "_product-image_" + UUID.nameUUIDFromBytes(fileName.getBytes(StandardCharsets.UTF_8)) + "." + extension;
         return uuid;
     }
 
     public static File transferTo(MultipartFile multipartFile) throws IOException {
-        File file = new File(multipartFile.getOriginalFilename());
+        File file = new File(System.getProperty("user.dir") + "/static_files/" + multipartFile.getOriginalFilename());
         multipartFile.transferTo(file);
+        file.createNewFile();
         return file;
     }
 }
