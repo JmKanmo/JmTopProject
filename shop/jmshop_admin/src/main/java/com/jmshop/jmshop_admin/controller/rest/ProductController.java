@@ -33,10 +33,8 @@ public class ProductController {
                                                 @RequestParam Map<String, String> paramMap) throws Exception {
         // ftp 파일 전송 + DB에 uuid 저장 => 어떻게 UUID 만들지 기힉
         String staticFileUUID = Util.getStaticFileUUID(product_image);
-        File file = Util.transferTo(product_image);
         product.setStaticFileUuid(staticFileUUID);
-        ftpUtil.ftpFileUpload(staticFileUUID, file);
-
+        ftpUtil.ftpFileUpload(staticFileUUID,product_image.getInputStream());
         product.setCategory(categoryService.findCategoryById(Long.parseLong(paramMap.get("categoryId"))).orElseThrow(() -> {
             throw new NullPointerException("JmShopAdmin [ProductController:registerProduct] While find product category, category ullPointerException occur");
         }));

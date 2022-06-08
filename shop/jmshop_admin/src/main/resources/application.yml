@@ -56,7 +56,6 @@ ftp:
   directory: jmservice/jmshop/static_files
   timeout: 10
   encoding: UTF-8
-  local_directory:
 
 
 

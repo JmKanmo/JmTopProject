@@ -115,6 +115,24 @@ public class FtpUtil {
             throw e;
         }
     }
+    public void ftpFileUpload(String fileUUID, InputStream fileInputStream) throws Exception {
+        try {
+            connect();
+
+            try {
+                storeFile(fileUUID, fileInputStream);    //파일명
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (fileInputStream != null) {
+                    fileInputStream.close();
+                }
+            }
+            disconnect();
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 
     public boolean isFtpConnected() {
         return ftpClient.isConnected();
