@@ -39,6 +39,10 @@ a {
     clip: rect(0 0 0 0);
 }
 
+.wrap_container {
+    padding: 10px 100px 0 100px;
+}
+
 .content {
     color: chartreuse;
     color: blanchedalmond;

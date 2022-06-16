@@ -1,9 +1,51 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<div th:fragment="header">
-    <strong class="header_text">
-        header 영역입니다 ~~~
-    </strong>
-</div>
+<header th:fragment="header" class="header">
+    <div class="header_box clear_fix">
+        <div class="logo_box">
+            <a href="/" title="JmShop">
+                <img class="logo_img"
+                     src="../image/jmshop_logo.jpg"/>
+            </a>
+        </div>
+
+        <div class="search_input_box">
+            <form action="/product/search" method="GET" class="search_form" name="search_form">
+                <input type="text" class="product_search_input">
+                <button class="product_search_button">
+                    <img src="../image/search_icon.png"/>
+                </button>
+            </form>
+        </div>
+
+        <div class="user_util_box">
+            <ul>
+                <li>
+                    <a href="/" title="나의 정보">
+                        <img src="../image/user.png"/>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/" title="찜한 상품">
+                        <img src="../image/wish_pick.png"/>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/" title="최근 본 상품">
+                        <img src="../image/scan_pick.png"/>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/" title="장바구니">
+                        <img src="../image/shopping_cart.png"/>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
 </html>

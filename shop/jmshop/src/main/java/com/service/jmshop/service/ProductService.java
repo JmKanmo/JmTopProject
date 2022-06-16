@@ -9,4 +9,6 @@ public interface ProductService {
     List<Product> findTopProduct(Pageable pageable);
 
     List<Product> findProductByCategoryId(Long categoryId);
+
+    List<Product> findProductByKeyword(String keyword);
 }

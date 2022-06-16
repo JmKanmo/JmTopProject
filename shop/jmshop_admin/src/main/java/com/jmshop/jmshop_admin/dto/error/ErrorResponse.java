@@ -12,8 +12,6 @@ public class ErrorResponse {
     @NotNull
     private String requestUrl;
     @NotNull
-    private String code;
-    @NotNull
     private String message;
     @NotNull
     private String resultCode;

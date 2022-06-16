@@ -39,6 +39,83 @@ a {
     clip: rect(0 0 0 0);
 }
 
-.header_text {
-    color: red;
+.header_box {
+    padding: 30px 100px 0 100px;
+    border-bottom: 1px solid #c3c3c3;
+    display: flex;
+    height: 100px;
+}
+
+.header_box .logo_box {
+    width: 10%;
+    padding: 20px;
+}
+
+.header_box .logo_box a {
+    height: 100%;
+}
+
+.header_box .logo_box .logo_img {
+    height: 100%;
+    border-radius: 100%;
+    animation: rotate_image 5s linear infinite;
+    transform-origin: 50% 50%;
+}
+
+@keyframes rotate_image {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.header_box .search_input_box {
+    width: 60%;
+    display: flex;
+    align-items: center;
+}
+
+.header_box .search_input_box .search_form {
+    position: relative;
+    width: 40%;
+    height: 40%;
+}
+
+.header_box .search_input_box .search_form .product_search_input {
+    border-radius: 24px;
+    border: 2px solid #067dfd;
+    width: 100%;
+    height: 100%;
+    outline: none;
+}
+
+.header_box .search_input_box .search_form .product_search_button {
+    position: absolute;
+    right: 5px;
+    top: 30%;
+    border: none;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.header_box .user_util_box {
+    width: 30%;
+}
+
+.header_box .user_util_box ul {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.header_box .user_util_box ul li {
+    height: 35%;
+}
+
+.user_util_box ul li:nth-child(n+2) {
+    margin-left: 30px;
+}
+
+.header_box .user_util_box ul li img {
+    height: 100%;
 }

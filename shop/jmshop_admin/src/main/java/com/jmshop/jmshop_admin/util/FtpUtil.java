@@ -4,6 +4,8 @@ import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPConnectionClosedException;
 import org.apache.commons.net.ftp.FTPReply;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +16,7 @@ import java.io.InputStream;
 
 @Component
 public class FtpUtil {
-    private final FTPClient ftpClient = new FTPClient();
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Value("${ftp.ip}")
     private String ip;
@@ -37,7 +39,7 @@ public class FtpUtil {
     @Value("${ftp.encoding}")
     private String encoding;
 
-    public void connect() throws Exception {
+    public void connect(FTPClient ftpClient) throws Exception {
         try {
             boolean result = false;
             ftpClient.connect(ip, port);
@@ -72,7 +74,7 @@ public class FtpUtil {
         }
     }
 
-    public void disconnect() throws Exception {
+    public void disconnect(FTPClient ftpClient) throws Exception {
         try {
             if (ftpClient.isConnected()) {
                 ftpClient.disconnect();
@@ -87,7 +89,7 @@ public class FtpUtil {
         }
     }
 
-    public void storeFile(String saveFileNm, InputStream inputStream) throws Exception {
+    public void storeFile(FTPClient ftpClient, String saveFileNm, InputStream inputStream) throws Exception {
         try {
             ftpClient.storeFile(saveFileNm, inputStream);
         } catch (Exception e) {
@@ -97,44 +99,43 @@ public class FtpUtil {
 
     public void ftpFileUpload(String fileUUID, File file) throws Exception {
         try {
-            connect();
+            final FTPClient ftpClient = new FTPClient();
+            connect(ftpClient);
             FileInputStream fis = new FileInputStream(file);
 
             try {
                 fis = new FileInputStream(file);
-                storeFile(fileUUID, fis);    //파일명
+                storeFile(ftpClient, fileUUID, fis);    //파일명
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.debug("[JmShopAdmin] FtpUtil:ftpFileUpload => ", e);
             } finally {
                 if (fis != null) {
                     fis.close();
                 }
             }
-            disconnect();
+            disconnect(ftpClient);
         } catch (Exception e) {
             throw e;
         }
     }
+
     public void ftpFileUpload(String fileUUID, InputStream fileInputStream) throws Exception {
         try {
-            connect();
+            final FTPClient ftpClient = new FTPClient();
+            connect(ftpClient);
 
             try {
-                storeFile(fileUUID, fileInputStream);    //파일명
+                storeFile(ftpClient, fileUUID, fileInputStream);    //파일명
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.debug("[JmShopAdmin] FtpUtil:ftpFileUpload => ", e);
             } finally {
                 if (fileInputStream != null) {
                     fileInputStream.close();
                 }
             }
-            disconnect();
+            disconnect(ftpClient);
         } catch (Exception e) {
             throw e;
         }
-    }
-
-    public boolean isFtpConnected() {
-        return ftpClient.isConnected();
     }
 }

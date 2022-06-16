@@ -12,6 +12,7 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findProductByOrderByCreatedDateDesc(Pageable pageable);
 
-    @Query("select p from product p where p.category_id = :category_id")
-    List<Product> findProductByCategoryId(@Param("category_id") Long categoryId);
+    List<Product> findProductByCategoryId(Long categoryId);
+
+    List<Product> findProductByNameContainingIgnoreCase(String keyword);
 }

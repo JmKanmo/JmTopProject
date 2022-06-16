@@ -1,6 +1,8 @@
 package com.jmshop.jmshop_admin.util;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -13,14 +15,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class FtpUtilTest {
     @Autowired
     private FtpUtil ftpUtil;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Test
-    public void ftpConnectAndDisConnectTest() {
+    public void ftpInitTest() {
         try {
             assertNotNull(ftpUtil);
-            ftpUtil.connect();
-            ftpUtil.disconnect();
         } catch (Exception e) {
+            logger.debug("[JmShopAdmin] FtpUtil:ftpFileUpload => ", e);
             fail();
         }
     }
@@ -33,8 +35,8 @@ class FtpUtilTest {
             String directory = "D:\\" + filename;
             File file = new File(directory); // 로컬 파일 경로
             ftpUtil.ftpFileUpload(UUID_filename, file);
-            assertEquals(ftpUtil.isFtpConnected(),false);
         } catch (Exception e) {
+            logger.debug("[JmShopAdmin] FtpUtil:ftpFileUpload => ", e);
             fail();
         }
     }

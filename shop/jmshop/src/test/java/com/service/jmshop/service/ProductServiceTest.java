@@ -42,7 +42,20 @@ class ProductServiceTest {
     @Transactional(readOnly = true)
     public void findProductByCategoryIdTest() {
         try {
-            List<Product> products = productService.findProductByCategoryId(new Long(2015));
+            List<Product> products = productService.findProductByCategoryId(new Long(1));
+            assertNotNull(products);
+            assertTrue(products.size() > 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @Test
+    @Transactional(readOnly = true)
+    public void findProductByKeywordTest() {
+        try {
+            List<Product> products = productService.findProductByKeyword("그린덕");
             assertNotNull(products);
             assertTrue(products.size() > 0);
         } catch (Exception e) {
