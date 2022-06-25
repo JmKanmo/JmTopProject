@@ -3,6 +3,7 @@ package com.jmshop.jmshop_admin.service.impl;
 import com.jmshop.jmshop_admin.dto.domain.Category;
 import com.jmshop.jmshop_admin.repository.CategoryRepository;
 import com.jmshop.jmshop_admin.service.CategoryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,13 +11,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class CategoryServiceImpl implements CategoryService {
-    private CategoryRepository categoryRepository;
-
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
+    private final CategoryRepository categoryRepository;
 
     @Override
     public Long saveCategory(Category category) {

@@ -1,12 +1,10 @@
 package com.jmshop.jmshop_admin.dto.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.Date;
 
 @Entity
 @Data

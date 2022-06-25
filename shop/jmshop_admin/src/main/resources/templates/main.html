@@ -6,6 +6,10 @@
 <div layout:fragment="content">
     <div class="middle_background">
         <nav class="menu clear_fix">
+            <a href="#banner_image_form" class="btn_group">
+                배너이미지 등록
+            </a>
+
             <a href="#product_form" class="btn_group">
                 상품 등록
             </a>
@@ -17,15 +21,42 @@
             <a href="#coupon_form" class="btn_group middle_btn">
                 쿠폰 등록
             </a>
-
-            <a href="" class="btn_group">
-                택배사 등록
-            </a>
         </nav>
 
         <div class="main">
             <div class="phrase">
                 <h3>등록 양식</h3>
+            </div>
+            <!-- 배너이미지 폼  -->
+            <div class="content_container">
+                <div class="content_title">
+                    <h3>배너이미지 등록</h3>
+                </div>
+
+                <div class="div_contents" id="banner_form">
+                    <form action="/register/banner" method="POST"
+                          class="register_form" name="banner_form" th:object="${banner}">
+                        <label for="banner_expiration_date">배너 이미지 만기일</label>
+                        <input type="date" id="banner_expiration_date" class="input_form"
+                               placeholder="배너 이미지 만기일을 지정해주세요."
+                               name="banner_expiration_date">
+
+                    </form>
+
+                    <form action="/register/image" method="POST" enctype="multipart/form-data"
+                          class="register_form image_form" id="banner_image_form" name="banner_image_form">
+                        <label for="banner_image">배너 이미지 ('jpg', 'jpeg', 'png', 'gif', 'GIF')</label>
+                        <div class="image_container">
+                            <input type="file" id="banner_image" name="banner_image"
+                                   class="file_form" accept="image/jpeg, image/jpg, image/png, image/gif, image/GIF">
+                            <img class="thumbnail_img" id="banner_thumbnail_img" src="../image/default_thumbnail.gif" title="상품이미지">
+
+                            <span id="banner_reset_img_btn" class="reset_img_btn" title="배너 전체 이미지 초기화 버튼"> <span
+                                    class="blind">배너 이미지 초기화</span> </span>
+                        </div>
+                    </form>
+                    <button class="register_btn" id="banner_register_btn" type="button">등록하기</button>
+                </div>
             </div>
 
             <!-- 상품 폼  -->
@@ -36,7 +67,7 @@
 
                 <div class="div_contents" id="product_form">
                     <form action="/register/product" method="POST" class="register_form"
-                          name="product_form" enctype="multipart/form-data"
+                          name="product_form"
                           th:object="${product}">
                         <label for="product_name">상품명</label>
                         <p id="name_validation" class="validation_error">
@@ -68,25 +99,6 @@
                         <textarea id="product_description" class="description_form" maxlength="65545"
                                   placeholder="상품 설명은 최대 65545 글자 까지 입력 가능합니다."
                                   name="product_description" th:field="*{description}"></textarea>
-
-                        <label for="product_image">상품 이미지 ('jpg', 'jpeg', 'png', 'gif', 'GIF')</label>
-                        <div class="product_image_container">
-                            <input type="file" id="product_image" name="product_image"
-                                   class="file_form"
-                                   accept="image/jpeg, image/jpg, image/png, image/gif, image/bmp, image/pdf">
-                            <img class="thumbnail_img" src="../image/default_thumbnail.gif" title="상품이미지">
-                            <span class="reset_img_btn" title="이미지 초기화 버튼">
-                            <span class="blind">이미지 초기화</span>
-                        </span>
-                        </div>
-
-                        <label for="product_tag">상품 태그,강조</label>
-                        <p id="tag_validation" class="validation_error">
-                            <span class="blind">유효성 에러 문구</span>
-                        </p>
-                        <input type="text" id="product_tag" name="product_tag" maxlength="50"
-                               class="input_form" placeholder="강조,태그할 내용을 입력해주세요. (최대 50글자)"
-                               th:field="*{tag}">
 
                         <label for="shipping_fee">기본 배송비</label>
                         <p id="shipping_validation" class="validation_error">
@@ -124,9 +136,25 @@
                             <!-- 쿠폰 추후 추가 예정 -->
                             <option>추가 안함</option>
                         </select>
-
-                        <button class="register_btn" id="product_register_btn" type="button">등록하기</button>
                     </form>
+
+                    <form action="/register/images" method="POST" enctype="multipart/form-data"
+                          class="register_form image_form" id="product_image_form" name="product_image_form">
+                        <label for="product_image">상품 이미지 ('jpg', 'jpeg', 'png', 'gif', 'GIF') - 최대 5개 첨부 가능</label>
+                        <div class="image_container">
+                            <input type="file" id="product_image" name="product_image"
+                                   class="file_form" multiple="multiple"
+                                   accept="image/jpeg, image/jpg, image/png, image/gif, image/GIF">
+
+                            <ul id="product_thumbnail_image_ul" class="thumbnail_image_ul clear_fix" title="이미지 썸네일 창">
+                                <!-- product-image-list-template -->
+                            </ul>
+
+                            <span id="product_reset_img_btn" class="reset_img_btn" title="상품 전체 이미지 초기화 버튼"> <span
+                                    class="blind">상품 이미지 초기화</span> </span>
+                        </div>
+                    </form>
+                    <button class="register_btn" id="product_register_btn" type="button">등록하기</button>
                 </div>
             </div>
 
@@ -257,7 +285,7 @@
 
 
                         <label for="coupon_category">쿠폰 적용 카테고리</label>
-                        <select class="select_form" id="coupon_category" name="product_category">
+                        <select class="select_form" id="coupon_category" name="coupon_category">
                             <!-- 쿠폰 추후 추가 예정 -->
                             <option>카테고리 없음</option>
                         </select>
@@ -300,12 +328,9 @@
 
 
                         <label for="coupon_expiration_date">쿠폰 만기일</label>
-                        <p id="coupon_expiration_date_validation" class="validation_error">
-                            <span class="blind">유효성 에러 문구</span>
-                        </p>
                         <input type="date" id="coupon_expiration_date" class="input_form"
                                placeholder="쿠폰 만기일을 지정해주세요."
-                               name="coupon_expiration_date" th:field="*{expirationDate}">
+                               name="coupon_expiration_date">
 
                         <button class="register_btn" id="coupon_register_btn" type="button">등록하기</button>
                     </form>

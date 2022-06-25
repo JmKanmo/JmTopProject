@@ -10,6 +10,7 @@ public class MainController {
     @GetMapping
     public String main(Model model) {
         model.addAttribute("product", Util.ofEmpty());
+        model.addAttribute("banner", Util.ofEmpty());
         model.addAttribute("seller", Util.ofEmpty());
         model.addAttribute("coupon", Util.ofEmpty());
         model.addAttribute("category", Util.ofEmpty());

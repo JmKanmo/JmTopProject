@@ -27,6 +27,7 @@ public class ControllerAdvice {
     public ResponseEntity<?> exceptionHandler(Exception e, HttpServletRequest httpServletRequest) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("error cause: " + e.getCause());
+        stringBuilder.append(" , ");
         stringBuilder.append("error message: " + e.getMessage());
 
         ErrorResponse errorResponse = new ErrorResponse();

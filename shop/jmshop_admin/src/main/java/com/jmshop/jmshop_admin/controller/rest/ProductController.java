@@ -1,7 +1,9 @@
 package com.jmshop.jmshop_admin.controller.rest;
 
 import com.jmshop.jmshop_admin.dto.domain.Product;
+import com.jmshop.jmshop_admin.dto.domain.ProductImage;
 import com.jmshop.jmshop_admin.service.CategoryService;
+import com.jmshop.jmshop_admin.service.ProductImageService;
 import com.jmshop.jmshop_admin.service.ProductService;
 import com.jmshop.jmshop_admin.service.SellerService;
 import com.jmshop.jmshop_admin.util.FtpUtil;
@@ -13,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.File;
-import java.time.LocalDateTime;
 import java.util.Map;
 
 @RestController
@@ -22,19 +22,15 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
+    private final ProductImageService productImageService;
     private final CategoryService categoryService;
     private final SellerService sellerService;
 
-    private final FtpUtil ftpUtil;
-
     @PostMapping(path = "/product")
     public ResponseEntity<Long> registerProduct(@Valid Product product,
-                                                @RequestPart MultipartFile product_image,
-                                                @RequestParam Map<String, String> paramMap) throws Exception {
-        // ftp 파일 전송 + DB에 uuid 저장 => 어떻게 UUID 만들지 기힉
-        String staticFileUUID = Util.getStaticFileUUID(product_image);
-        product.setStaticFileUuid(staticFileUUID);
-        ftpUtil.ftpFileUpload(staticFileUUID, product_image.getInputStream());
+                                                @RequestParam Map<String, String> paramMap) {
+        long result = 0L;
+        String[] imgSrcList = paramMap.get("imgSrcList").split(",");
 
         product.setCategory(categoryService.findCategoryById(Long.parseLong(paramMap.get("categoryId"))).orElseThrow(() -> {
             throw new NullPointerException("JmShopAdmin [ProductController:registerProduct] While find product category, category ullPointerException occur");
@@ -44,7 +40,16 @@ public class ProductController {
             throw new NullPointerException("JmShopAdmin [ProductController:registerProduct] While find product seller, seller NullPointerException occur");
         }));
 
-        // TODO delivery find
-        return ResponseEntity.status(HttpStatus.OK).body(productService.saveProduct(product));
+        result += productService.saveProduct(product);
+
+        for (String imgSrc : imgSrcList) {
+            if (imgSrc == null || imgSrc.isEmpty()) {
+                continue;
+            }
+            result += productImageService.insertProductImage(ProductImage.fromEntity(product, imgSrc));
+        }
+
+        // TODO set delivery find logic
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }
