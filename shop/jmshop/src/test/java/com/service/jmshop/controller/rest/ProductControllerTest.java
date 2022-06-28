@@ -1,6 +1,5 @@
 package com.service.jmshop.controller.rest;
 
-import com.service.jmshop.dto.domain.Product;
 import com.service.jmshop.service.ProductService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ class ProductControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    void getTopProduct() {
+    void getTopProductTest() {
         try {
             when(productService.findTopProduct(PageRequest.of(0, 20))).thenReturn(new ArrayList<>());
             mockMvc.perform(get("/product/top")
@@ -46,7 +45,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void getProductByCategory() {
+    void getProductByCategoryTest() {
         try {
             when(productService.findProductByCategoryId(anyLong())).thenReturn(new ArrayList<>());
             mockMvc.perform(get("/product/category")
@@ -61,7 +60,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void getProductByKeyword() {
+    void getProductByKeywordTest() {
         try {
             when(productService.findProductByKeyword(anyString())).thenReturn(new ArrayList<>());
             mockMvc.perform(get("/product/search")

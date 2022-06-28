@@ -28,6 +28,11 @@ public class BannerImageController {
                                                     @RequestParam Map<String, String> paramMap,
                                                     @RequestParam("banner_expiration_date") @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE) Date expirationDate) {
         String imgSrc = paramMap.get("imgSrc");
+        String bannerLink = paramMap.get("bannerLink");
+
+        if(bannerLink == null || bannerLink.isEmpty()) {
+            bannerLink = "/";
+        }
 
         if (imgSrc == null || imgSrc.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(-1L);
@@ -35,6 +40,7 @@ public class BannerImageController {
 
         bannerImage.setExpirationDate(LocalDateTime.ofInstant(expirationDate.toInstant(), ZoneId.systemDefault()));
         bannerImage.setUuid(imgSrc);
+        bannerImage.setBannerLink(bannerLink);
         return ResponseEntity.status(HttpStatus.OK).body(bannerImageService.insertBannerImage(bannerImage));
     }
 }

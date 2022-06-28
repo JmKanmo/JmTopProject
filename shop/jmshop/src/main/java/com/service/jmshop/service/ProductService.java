@@ -1,6 +1,6 @@
 package com.service.jmshop.service;
 
-import com.service.jmshop.dto.domain.Product;
+import com.service.jmshop.domain.Product;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

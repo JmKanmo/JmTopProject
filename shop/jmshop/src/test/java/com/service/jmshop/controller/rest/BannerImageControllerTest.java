@@ -1,7 +1,7 @@
 package com.service.jmshop.controller.rest;
 
-import com.service.jmshop.domain.Category;
-import com.service.jmshop.service.CategoryService;
+import com.service.jmshop.dto.BannerImageDto;
+import com.service.jmshop.service.BannerImageService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -11,29 +11,30 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
 
+import static org.mockito.BDDMockito.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
 @SpringBootTest
 @AutoConfigureMockMvc
-class CategoryControllerTest {
+public class BannerImageControllerTest {
     @MockBean
-    private CategoryService categoryService;
+    private BannerImageService bannerImageService;
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    void getCategoriesTest() {
+    public void findBannerImagesTest() {
         try {
-            when(categoryService.findCategory()).thenReturn(Arrays.asList(new Category(), new Category(), new Category()));
-            mockMvc.perform(get("/category").accept("application/json"))
+            when(bannerImageService.findBannerImages(any())).thenReturn(Arrays.asList(BannerImageDto.builder().build()));
+            mockMvc.perform(get("/banner-image").accept("application/json"))
                     .andDo(print())
                     .andExpect(status().isOk());
-            verify(categoryService, timeout(1)).findCategory();
+            verify(bannerImageService, timeout(1)).findBannerImages(any());
         } catch (Exception e) {
             e.printStackTrace();
             fail();

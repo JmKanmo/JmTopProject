@@ -1,4 +1,4 @@
-package com.jmshop.jmshop_admin.dto.domain;
+package com.service.jmshop.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

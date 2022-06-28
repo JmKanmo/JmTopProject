@@ -1,8 +1,7 @@
 package com.service.jmshop.service;
 
-import com.service.jmshop.dto.domain.Product;
+import com.service.jmshop.domain.Product;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +17,9 @@ class ProductServiceTest {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     @BeforeEach
     public void productServiceTest() {
         assertNotNull(productService);
@@ -25,7 +27,7 @@ class ProductServiceTest {
 
     @Test
     @Transactional(readOnly = true)
-    public void findTopProduct() {
+    public void findTopProductTest() {
         try {
             int start = 0;
             int size = 5;
@@ -42,7 +44,7 @@ class ProductServiceTest {
     @Transactional(readOnly = true)
     public void findProductByCategoryIdTest() {
         try {
-            List<Product> products = productService.findProductByCategoryId(new Long(1));
+            List<Product> products = productService.findProductByCategoryId(categoryService.findCategory().stream().findFirst().get().getId());
             assertNotNull(products);
             assertTrue(products.size() > 0);
         } catch (Exception e) {
@@ -55,9 +57,8 @@ class ProductServiceTest {
     @Transactional(readOnly = true)
     public void findProductByKeywordTest() {
         try {
-            List<Product> products = productService.findProductByKeyword("그린덕");
+            List<Product> products = productService.findProductByKeyword("덕");
             assertNotNull(products);
-            assertTrue(products.size() > 0);
         } catch (Exception e) {
             e.printStackTrace();
             fail();

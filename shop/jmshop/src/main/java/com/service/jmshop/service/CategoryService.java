@@ -1,6 +1,6 @@
 package com.service.jmshop.service;
 
-import com.service.jmshop.dto.domain.Category;
+import com.service.jmshop.domain.Category;
 
 import java.util.List;
 

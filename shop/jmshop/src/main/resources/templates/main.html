@@ -4,19 +4,42 @@
       layout:decorate="~{layouts/main_layout}">
 
 <div layout:fragment="content">
-    <h1>쇼핑몰 페이지 입니다.</h1>
-    <form action="/register/product" method="POST" class="register_form"
-          name="product_form" enctype="multipart/form-data">
-        <label for="product_image">상품 이미지 </label>
-        <div class="product_image_container">
-            <input type="file" id="product_image" name="product_image"
-                   class="file_form"
-                   accept="image/jpeg, image/jpg, image/png, image/gif, image/bmp, image/pdf">
-            <img class="thumbnail_img" src="../image/default_thumbnail.gif" title="상품이미지">
-            <img src="ftp://junmo:wnsah12@127.0.0.1/home/vsftpd/junmo/hi.png"/>
+    <!-- 프로모션박스 -->
+    <ul class="banner-carousel-board" id="banner-carousel-board">
+        <div class="carousel-option-box clear_fix">
+            <button type="button" class="carousel-option pause_option-box" id="carousel-pause-button">
+                <span class="blind">멈추기/재생 버튼</span>
+            </button>
 
+            <div class="carousel-option middle-option-box clear_fix">
+                <div class="count-option-box">
+                    <span class="banner-count" id="banner-current-count"></span>
+                    <span class="banner-count un-emp">/</span>
+                    <span class="banner-count un-emp" id="banner-total-count"></span>
+                </div>
+
+                <button type="button" class="more-option-box" id="carousel-more-button">
+                    <span class="blind">더보기 버튼</span>
+                </button>
+            </div>
+
+            <div class="carousel-option move-option-box clear_fix">
+                <button type="button" class="backward-box" id="carousel-backward-button">
+                    <span class="blind">왼쪽 이동 버튼</span>
+                </button>
+
+                <button type="button" class="forward-box" id="carousel-forward-button">
+                    <span class="blind">오른쪽 이동 버튼</span>
+                </button>
+            </div>
         </div>
-        <button class="register_btn" id="product_register_btn" type="button">등록하기</button>
-    </form>
+
+        <!-- empty-default-thumbnail-image -->
+        <img class="carousel-default-thumbnail" id="carousel-default-thumbnail" src="../image/default_thumbnail.gif">
+
+        <!-- bannerImage-template -->
+    </ul>
+
+    <!-- TODO 상품 카테고리 레이아웃 작성 -->
 </div>
 </html>

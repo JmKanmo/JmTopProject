@@ -1,4 +1,4 @@
-package com.service.jmshop.dto.domain;
+package com.service.jmshop.domain;
 
 import lombok.*;
 import org.hibernate.validator.constraints.URL;

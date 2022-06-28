@@ -1,6 +1,6 @@
 package com.service.jmshop.controller.rest;
 
-import com.service.jmshop.dto.domain.Product;
+import com.service.jmshop.domain.Product;
 import com.service.jmshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;

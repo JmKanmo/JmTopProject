@@ -290,6 +290,7 @@ class BannerFormController extends UtilController {
         this.bannerForm = document.forms["banner_form"];
         this.registerBtn = document.getElementById("banner_register_btn");
         this.bannerExpirationDateForm = document.getElementById("banner_expiration_date");
+        this.bannerLinkForm = document.getElementById("banner_link");
     }
 
     initBannerFormController() {
@@ -346,7 +347,7 @@ class BannerFormController extends UtilController {
     submitBannerForm(bannerImgSrc) {
         const formData = new FormData(this.bannerForm);
         const xhr = new XMLHttpRequest();
-        const params = `?imgSrc=${bannerImgSrc}`;
+        const params = `?imgSrc=${bannerImgSrc}&bannerLink=${this.bannerLinkForm.value}`;
 
         xhr.open("POST", "/register/bannerImage" + params);
 
@@ -397,6 +398,7 @@ class BannerFormController extends UtilController {
 
     resetRegisterForm() {
         this.bannerExpirationDateForm.value = "";
+        this.bannerLinkForm.value = "";
         this.imageController.resetBannerImage();
     }
 }

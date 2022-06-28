@@ -41,6 +41,9 @@
                                placeholder="배너 이미지 만기일을 지정해주세요."
                                name="banner_expiration_date">
 
+                        <label for="product_name">배너 광고 링크</label>
+                        <input type="text" id="banner_link" name="banner_link" maxlength="256"
+                               class="input_form" placeholder="배너 이미지 링크를 입력해주세요. (최대 256글자, 전체 상품명 공백 및 스페이스바 입력불가)">
                     </form>
 
                     <form action="/register/image" method="POST" enctype="multipart/form-data"
@@ -49,7 +52,8 @@
                         <div class="image_container">
                             <input type="file" id="banner_image" name="banner_image"
                                    class="file_form" accept="image/jpeg, image/jpg, image/png, image/gif, image/GIF">
-                            <img class="thumbnail_img" id="banner_thumbnail_img" src="../image/default_thumbnail.gif" title="상품이미지">
+                            <img class="thumbnail_img" id="banner_thumbnail_img" src="../image/default_thumbnail.gif"
+                                 title="상품이미지">
 
                             <span id="banner_reset_img_btn" class="reset_img_btn" title="배너 전체 이미지 초기화 버튼"> <span
                                     class="blind">배너 이미지 초기화</span> </span>

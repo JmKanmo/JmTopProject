@@ -1,10 +1,12 @@
-package com.service.jmshop.dto.domain;
+package com.service.jmshop.domain;
 
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -25,9 +27,6 @@ public class Product extends BaseTimeEntity{
     @Size(max = 65545, message = "상품설명은 최대 65545글자 까지 작성 가능합니다.")
     private String description;
 
-    @Size(max = 128, message = "상품 태그/광고는 최대 50글자 까지 작성 가능합니다.")
-    private String tag;
-
     @Range(min = 0L, max = 999999999999L, message = "최소 0원 ~ 999,999,999,999원 범위의 금액만 가능합니다.")
     private Long price;
 
@@ -36,9 +35,6 @@ public class Product extends BaseTimeEntity{
 
     @Range(min = 0, max = 100, message = "할인율은 0% ~ 100% 범위 내에서 작성 가능합니다.")
     private Integer discount;
-
-    @Size(max = 65535, message = "정적파일 UUID는 최대 65535글자 까지 작성 가능합니다.")
-    private String staticFileUuid;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
@@ -51,4 +47,7 @@ public class Product extends BaseTimeEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<ProductImage> productImages = new ArrayList<>();
 }

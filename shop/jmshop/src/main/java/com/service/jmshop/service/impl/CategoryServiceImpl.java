@@ -1,6 +1,6 @@
 package com.service.jmshop.service.impl;
 
-import com.service.jmshop.dto.domain.Category;
+import com.service.jmshop.domain.Category;
 import com.service.jmshop.repository.CategoryRepository;
 import com.service.jmshop.service.CategoryService;
 import lombok.RequiredArgsConstructor;

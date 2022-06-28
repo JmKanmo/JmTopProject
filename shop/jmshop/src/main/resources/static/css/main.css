@@ -1,0 +1,179 @@
+@charset "utf-8";
+
+/*기본스타일 정의*/
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-width: 1080px;
+    min-height: 100%;
+    font-family: '나눔 고딕', NanumGothic, '돋움', Dotum, sans-serif;
+}
+
+ul,
+ol,
+li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+button {
+    border: 0 none;
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 0;
+}
+
+.clear_fix::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.blind {
+    position: absolute;
+    overflow: hidden;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    clip: rect(0 0 0 0);
+}
+
+/* banner-carousel */
+.banner-carousel-board {
+    height: 400px;
+    border: 1px solid #46464652;
+    position: relative;
+}
+
+.banner-carousel-board .carousel-default-thumbnail {
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.banner-carousel-board .banner-list {
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.banner-carousel-board .banner-link {
+    height: 100%;
+    display: block;
+}
+
+.banner-carousel-board .banner-list .banner-image {
+    width: 100%;
+    height: 100%;
+}
+
+.banner-carousel-board .carousel-option-box {
+    position: absolute;
+    bottom: 10px;
+    right: 100px;
+    height: 50px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.carousel-option-box .carousel-option {
+    float: left;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.carousel-option-box .carousel-option:nth-child(n+2) {
+    margin-left: 15px;
+}
+
+.carousel-option-box .pause_option-box {
+    cursor: pointer;
+    width: 45px;
+    height: 45px;
+    border-radius: 23px;
+    line-height: 300px;
+    background-image: url(../image/pause.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.carousel-option-box .middle-option-box {
+    display: flex;
+    width: 140px;
+    height: 47px;
+    border-radius: 25px;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.carousel-option-box .middle-option-box .count-option-box :nth-child(n+2) {
+    margin-left: 3px;
+}
+
+.carousel-option-box .middle-option-box .count-option-box {
+    float: left;
+    width: 50%;
+    height: 100%;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+}
+
+.carousel-option-box .middle-option-box .count-option-box .banner-count {
+    font-size: 17px;
+    color: #fff;
+    font-family: "Lato", "Helvetica Neue", "Apple SD Gothic Neo", "맑은 고딕", "Malgun Gothic", "돋움", dotum, sans-serif;
+}
+
+.carousel-option-box .middle-option-box .count-option-box .un-emp {
+    opacity: 0.6;
+}
+
+.carousel-option-box .middle-option-box .more-option-box {
+    cursor: pointer;
+    float: right;
+    width: 50%;
+    height: 100%;
+    background-image: url(../image/more_button.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.carousel-option-box .move-option-box {
+    display: flex;
+    height: 45px;
+    border-radius: 23px;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.carousel-option-box .move-option-box .backward-box {
+    float: left;
+    width: 46px;
+    height: 45px;
+    overflow: hidden;
+    line-height: 300px;
+    background-image: url(../image/backward_arrow.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.carousel-option-box .move-option-box .forward-box {
+    float: right;
+    width: 46px;
+    height: 45px;
+    overflow: hidden;
+    line-height: 300px;
+    background-image: url(../image/forward_arrow.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+

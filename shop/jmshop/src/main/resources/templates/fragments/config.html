@@ -4,13 +4,28 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <th:block th:fragment="config">
-    <link th:href="@{/css/layout.css}" type="text/css" rel="stylesheet">
+    <link th:href="@{/css/main.css}" type="text/css" rel="stylesheet">
     <link th:href="@{/css/header.css}" type="text/css" rel="stylesheet">
     <link th:href="@{/css/footer.css}" type="text/css" rel="stylesheet">
 
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script type="text/javascript" th:src="@{/js/layout.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
     <script type="text/javascript" th:src="@{/js/header.js}"></script>
     <script type="text/javascript" th:src="@{/js/footer.js}"></script>
+
+    <!-- handlebars template -->
+    <script id="banner-image-list-template" type="text/x-handlebars-template">
+        {{#each bannerList}}
+        <li class="banner-list">
+            <a href="{{link}}" class="banner-link">
+                <img class="banner-image" src="{{imgSrc}}">
+            </a>
+        </li>
+        {{/each}}
+    </script>
 </th:block>
 </html>
