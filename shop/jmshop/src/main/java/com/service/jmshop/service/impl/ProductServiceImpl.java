@@ -1,6 +1,7 @@
 package com.service.jmshop.service.impl;
 
 import com.service.jmshop.domain.Product;
+import com.service.jmshop.dto.ProductMainDto;
 import com.service.jmshop.repository.ProductRepository;
 import com.service.jmshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,8 +24,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findProductByCategoryId(Long categoryId) {
-        return productRepository.findProductByCategoryId(categoryId);
+    public List<ProductMainDto> findProductByCategoryId(Long categoryId) {
+        return productRepository.findProductByCategoryId(categoryId).stream().map(ProductMainDto::fromEntity).collect(Collectors.toList());
     }
 
     @Override

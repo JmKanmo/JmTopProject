@@ -1,6 +1,7 @@
 package com.service.jmshop.controller.rest;
 
 import com.service.jmshop.domain.Product;
+import com.service.jmshop.dto.ProductMainDto;
 import com.service.jmshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -28,7 +29,7 @@ public class ProductController {
     }
 
     @GetMapping("/category")
-    public ResponseEntity<List<Product>> getProductByCategory(
+    public ResponseEntity<List<ProductMainDto>> getProductByCategory(
             @RequestParam(value = "categoryId", required = false, defaultValue = "0") long categoryId
     ) {
         return ResponseEntity.status(HttpStatus.OK).body(productService.findProductByCategoryId(categoryId));

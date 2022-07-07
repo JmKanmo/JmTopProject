@@ -1,6 +1,6 @@
 package com.service.jmshop.controller.rest;
 
-import com.service.jmshop.domain.Category;
+import com.service.jmshop.dto.CategoryDto;
 import com.service.jmshop.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<List<Category>> getCategories() {
+    public ResponseEntity<List<CategoryDto>> getCategories() {
         return ResponseEntity.status(HttpStatus.OK).body(categoryService.findCategory());
     }
 }

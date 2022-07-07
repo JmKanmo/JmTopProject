@@ -1,6 +1,8 @@
 package com.service.jmshop.service;
 
 import com.service.jmshop.domain.Product;
+import com.service.jmshop.domain.ProductImage;
+import com.service.jmshop.dto.ProductMainDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,12 @@ class ProductServiceTest {
             List<Product> products = productService.findTopProduct(PageRequest.of(start, size));
             assertNotNull(products);
             assertEquals(products.size(), size - start);
+
+            products.forEach(product -> {
+                List<ProductImage> productImages = product.getProductImages();
+                assertNotNull(productImages);
+                assertTrue(productImages.size() >= 0);
+            });
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -41,12 +49,11 @@ class ProductServiceTest {
     }
 
     @Test
-    @Transactional(readOnly = true)
     public void findProductByCategoryIdTest() {
         try {
-            List<Product> products = productService.findProductByCategoryId(categoryService.findCategory().stream().findFirst().get().getId());
+            List<ProductMainDto> products = productService.findProductByCategoryId(categoryService.findCategory().stream().findFirst().get().getId());
             assertNotNull(products);
-            assertTrue(products.size() > 0);
+            assertTrue(products.size() >= 0);
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -59,6 +66,12 @@ class ProductServiceTest {
         try {
             List<Product> products = productService.findProductByKeyword("덕");
             assertNotNull(products);
+
+            products.forEach(product -> {
+                List<ProductImage> productImages = product.getProductImages();
+                assertNotNull(productImages);
+                assertTrue(productImages.size() >= 0);
+            });
         } catch (Exception e) {
             e.printStackTrace();
             fail();

@@ -40,8 +40,7 @@ a {
 }
 
 .header_box {
-    padding: 30px 100px 0 100px;
-    border-bottom: 1px solid #c3c3c3;
+    padding: 30px 200px 0 200px;
     display: flex;
     height: 100px;
 }
@@ -76,7 +75,7 @@ a {
 
 .header_box .search_input_box .search_form {
     position: relative;
-    width: 40%;
+    width: 50%;
     height: 40%;
 }
 
@@ -102,7 +101,7 @@ a {
 }
 
 .header_box .user_util_box ul {
-    width: 100%;
+    float: right;
     height: 100%;
     display: flex;
     align-items: center;
@@ -112,8 +111,8 @@ a {
     height: 35%;
 }
 
-.user_util_box ul li:nth-child(n+2) {
-    margin-left: 30px;
+.user_util_box ul li:nth-child(-n+3) {
+    margin-right: 30px;
 }
 
 .header_box .user_util_box ul li img {

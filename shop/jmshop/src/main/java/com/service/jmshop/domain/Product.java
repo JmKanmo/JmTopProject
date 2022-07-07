@@ -1,6 +1,8 @@
 package com.service.jmshop.domain;
 
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
@@ -48,6 +50,7 @@ public class Product extends BaseTimeEntity{
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(mappedBy = "product")
     private List<ProductImage> productImages = new ArrayList<>();
 }

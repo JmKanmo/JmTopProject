@@ -21,8 +21,6 @@ public class BannerImageServiceImpl implements BannerImageService {
     public List<BannerImageDto> findBannerImages(LocalDateTime time) {
         return bannerImageRepository.findBannerImageByOrderByExpirationDateAsc()
                 .stream().filter(bannerImage -> bannerImage.getExpirationDate().isAfter(time))
-                .map(bannerImage -> BannerImageDto.builder()
-                        .imgSrc(bannerImage.getUuid())
-                        .link(bannerImage.getBannerLink()).build()).collect(Collectors.toList());
+                .map(BannerImageDto::fromEntity).collect(Collectors.toList());
     }
 }

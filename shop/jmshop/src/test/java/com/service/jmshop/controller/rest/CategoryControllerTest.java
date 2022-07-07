@@ -1,6 +1,6 @@
 package com.service.jmshop.controller.rest;
 
-import com.service.jmshop.domain.Category;
+import com.service.jmshop.dto.CategoryDto;
 import com.service.jmshop.service.CategoryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ class CategoryControllerTest {
     @Test
     void getCategoriesTest() {
         try {
-            when(categoryService.findCategory()).thenReturn(Arrays.asList(new Category(), new Category(), new Category()));
+            when(categoryService.findCategory()).thenReturn(Arrays.asList(CategoryDto.builder().build(), CategoryDto.builder().build(), CategoryDto.builder().build()));
             mockMvc.perform(get("/category").accept("application/json"))
                     .andDo(print())
                     .andExpect(status().isOk());

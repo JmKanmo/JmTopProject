@@ -3,7 +3,7 @@
       xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
       layout:decorate="~{layouts/main_layout}">
 
-<div layout:fragment="content">
+<div class="main_container" layout:fragment="content">
     <!-- 프로모션박스 -->
     <ul class="banner-carousel-board" id="banner-carousel-board">
         <div class="carousel-option-box clear_fix">
@@ -40,6 +40,28 @@
         <!-- bannerImage-template -->
     </ul>
 
-    <!-- TODO 상품 카테고리 레이아웃 작성 -->
+    <!-- 상품 카테고리 레이아웃 -->
+    <div class="product_category_board">
+        <h3 class="product_category_h_tag">
+            상품 카테고리
+        </h3>
+
+        <ul class="product_category_list" id="product_category_list">
+            <!-- product-category-list-template -->
+        </ul>
+
+        <ul class="product_list clear_fix" id="product_list">
+            <!-- product-card-template -->
+            <div class="default_image_div" id="default_image_div">
+                <img src="../image/product_card_default.png">
+                <h3 class="message"> 원하는 카테고리를 선택하세요.</h3>
+            </div>
+
+            <div class="empty_image_div" id="empty_image_div">
+                <img src="../image/product_empty.png">
+                <h3 class="message"> 요청한 카테고리에 상품이 없습니다.</h3>
+            </div>
+        </ul>
+    </div>
 </div>
 </html>

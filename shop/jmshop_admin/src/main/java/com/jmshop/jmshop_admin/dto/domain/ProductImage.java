@@ -22,7 +22,7 @@ public class ProductImage {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    public static ProductImage fromEntity(Product product, String imgSrc) {
+    public static ProductImage from(Product product, String imgSrc) {
         return ProductImage.builder()
                 .uuid(imgSrc)
                 .product(product)

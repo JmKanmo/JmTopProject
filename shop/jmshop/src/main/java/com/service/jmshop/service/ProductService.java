@@ -1,6 +1,7 @@
 package com.service.jmshop.service;
 
 import com.service.jmshop.domain.Product;
+import com.service.jmshop.dto.ProductMainDto;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 public interface ProductService {
     List<Product> findTopProduct(Pageable pageable);
 
-    List<Product> findProductByCategoryId(Long categoryId);
+    List<ProductMainDto> findProductByCategoryId(Long categoryId);
 
     List<Product> findProductByKeyword(String keyword);
 }

@@ -27,5 +27,57 @@
         </li>
         {{/each}}
     </script>
+
+    <script id="product-category-list-template" type="text/x-handlebars-template">
+        {{#each categoryList}}
+        <li class="product_category" categoryId="{{id}}">
+            <span class="product_category_span">{{name}}</span>
+        </li>
+        {{/each}}
+    </script>
+
+    <script id="product-card-template" type="text/x-handlebars-template">
+        {{#each productList}}
+        <li class="product_board">
+            <div class="product_board_div">
+                <a href="/product?id={{id}}" class="product_link">
+                    <div class="product_img_board">
+                        <img class="product_img"
+                             src="{{imgSrc}}"
+                             title="상품이미지">
+                    </div>
+
+                    <div class="product_detail_info_box">
+                        <div class="product_title_div">
+                            <strong class="seller_name">{{sellerName}}</strong>
+                            <em class="product_name">{{name}}</em>
+                        </div>
+
+                        <div class="product_price_div clear_fix">
+                            <div class="product_discount_div">
+                                <span class="product_discount">{{discount}}%</span>
+                            </div>
+
+                            <div class="product_discounted_price_div">
+                                <strong class="product_discounted_price">{{discountedPrice}}</strong>원~
+                            </div>
+
+                            <div class="product_not_discounted_price_div">
+                                <strong class="product_not_discounted_price">{{basicPrice}}원</strong>
+                                <!--
+                                TODO => after or absolute 이용해 가격표시 아이콘 추후에 추가 (SSG.COM 참고)
+                                -->
+                            </div>
+
+                            <!-- TODO => review 데이터 추후에 추가 (SSG.COM 참고) -->
+                            <!-- TODO => 배송 아이콘 추후에 추가 (SSG.COM 참고) -->
+                            <!-- TODO => 태그 추후에 추가 (SSG.COM 참고) -->
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </li>
+        {{/each}}
+    </script>
 </th:block>
 </html>

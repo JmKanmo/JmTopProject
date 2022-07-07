@@ -6,13 +6,10 @@ import com.jmshop.jmshop_admin.service.CategoryService;
 import com.jmshop.jmshop_admin.service.ProductImageService;
 import com.jmshop.jmshop_admin.service.ProductService;
 import com.jmshop.jmshop_admin.service.SellerService;
-import com.jmshop.jmshop_admin.util.FtpUtil;
-import com.jmshop.jmshop_admin.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -46,7 +43,7 @@ public class ProductController {
             if (imgSrc == null || imgSrc.isEmpty()) {
                 continue;
             }
-            result += productImageService.insertProductImage(ProductImage.fromEntity(product, imgSrc));
+            result += productImageService.insertProductImage(ProductImage.from(product, imgSrc));
         }
 
         // TODO set delivery find logic
