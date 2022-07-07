@@ -7,6 +7,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -31,13 +33,16 @@ class ProductControllerTest {
     @Test
     void getTopProductTest() {
         try {
-            when(productService.findTopProduct(PageRequest.of(0, 20))).thenReturn(new ArrayList<>());
+            Pageable pageable = PageRequest.of(0, 20, Sort.by("createdDate").descending());
+
+            when(productService.findTopProduct(pageable)).thenReturn(new ArrayList<>());
             mockMvc.perform(get("/product/top")
                             .param("page", "0")
-                            .param("size", "20").accept("application/json"))
+                            .param("size", "20")
+                            .accept("application/json"))
                     .andDo(print())
                     .andExpect(status().isOk());
-            verify(productService, timeout(1)).findTopProduct(PageRequest.of(0, 20));
+            verify(productService, timeout(1)).findTopProduct(pageable);
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -47,12 +52,15 @@ class ProductControllerTest {
     @Test
     void getProductByCategoryTest() {
         try {
-            when(productService.findProductByCategoryId(anyLong())).thenReturn(new ArrayList<>());
+            when(productService.findProductByCategoryId(anyLong(), any())).thenReturn(new ArrayList<>());
             mockMvc.perform(get("/product/category")
-                            .param("categoryId", "0").accept("application/json"))
+                            .param("categoryId", "0")
+                            .param("page", "0")
+                            .param("size", "6")
+                            .accept("application/json"))
                     .andDo(print())
                     .andExpect(status().isOk());
-            verify(productService, timeout(1)).findProductByCategoryId(anyLong());
+            verify(productService, timeout(1)).findProductByCategoryId(anyLong(), any());
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -62,12 +70,15 @@ class ProductControllerTest {
     @Test
     void getProductByKeywordTest() {
         try {
-            when(productService.findProductByKeyword(anyString())).thenReturn(new ArrayList<>());
+            when(productService.findProductByKeyword(anyString(), any())).thenReturn(new ArrayList<>());
             mockMvc.perform(get("/product/search")
-                            .param("keyword", "").accept("application/json"))
+                            .param("keyword", "")
+                            .param("page", "0")
+                            .param("size", "15")
+                            .accept("application/json"))
                     .andDo(print())
                     .andExpect(status().isOk());
-            verify(productService, timeout(1)).findProductByKeyword(anyString());
+            verify(productService, timeout(1)).findProductByKeyword(anyString(), any());
         } catch (Exception e) {
             e.printStackTrace();
             fail();

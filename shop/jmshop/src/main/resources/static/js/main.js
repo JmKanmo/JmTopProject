@@ -240,7 +240,6 @@ class ProductCategoryController {
     initProductCategoryController() {
         this.setProductCategoryListEventListener();
         this.requestHttpCategory();
-        this.setDefaultImage();
     }
 
     requestHttpCategory() {

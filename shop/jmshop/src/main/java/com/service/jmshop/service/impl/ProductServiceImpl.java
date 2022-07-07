@@ -6,6 +6,7 @@ import com.service.jmshop.repository.ProductRepository;
 import com.service.jmshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,16 +21,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findTopProduct(Pageable pageable) {
-        return productRepository.findProductByOrderByCreatedDateDesc(pageable).getContent();
+        return productRepository.findProductBy(pageable).getContent();
     }
 
     @Override
-    public List<ProductMainDto> findProductByCategoryId(Long categoryId) {
-        return productRepository.findProductByCategoryId(categoryId).stream().map(ProductMainDto::fromEntity).collect(Collectors.toList());
+    public List<ProductMainDto> findProductByCategoryId(Long categoryId, Pageable pageable) {
+        return productRepository.findProductByCategoryId(categoryId, pageable).getContent().stream().map(ProductMainDto::fromEntity).collect(Collectors.toList());
     }
 
     @Override
-    public List<Product> findProductByKeyword(String keyword) {
-        return productRepository.findProductByNameContainingIgnoreCase(keyword);
+    public List<Product> findProductByKeyword(String keyword, Pageable pageable) {
+        return productRepository.findProductByNameContainingIgnoreCase(keyword, pageable).getContent();
     }
 }

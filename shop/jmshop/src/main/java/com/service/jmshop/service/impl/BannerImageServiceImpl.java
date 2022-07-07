@@ -4,6 +4,7 @@ import com.service.jmshop.dto.BannerImageDto;
 import com.service.jmshop.repository.BannerImageRepository;
 import com.service.jmshop.service.BannerImageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +20,7 @@ public class BannerImageServiceImpl implements BannerImageService {
 
     @Override
     public List<BannerImageDto> findBannerImages(LocalDateTime time) {
-        return bannerImageRepository.findBannerImageByOrderByExpirationDateAsc()
+        return bannerImageRepository.findBannerImagesBy(Sort.by(Sort.Order.asc("expirationDate")))
                 .stream().filter(bannerImage -> bannerImage.getExpirationDate().isAfter(time))
                 .map(BannerImageDto::fromEntity).collect(Collectors.toList());
     }

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -32,10 +33,10 @@ class ProductServiceTest {
     public void findTopProductTest() {
         try {
             int start = 0;
-            int size = 5;
-            List<Product> products = productService.findTopProduct(PageRequest.of(start, size));
+            int size = 20;
+            List<Product> products = productService.findTopProduct(PageRequest.of(start, size, Sort.by("createdDate").descending()));
             assertNotNull(products);
-            assertEquals(products.size(), size - start);
+            assertTrue(products.size() >= 0);
 
             products.forEach(product -> {
                 List<ProductImage> productImages = product.getProductImages();
@@ -51,7 +52,9 @@ class ProductServiceTest {
     @Test
     public void findProductByCategoryIdTest() {
         try {
-            List<ProductMainDto> products = productService.findProductByCategoryId(categoryService.findCategory().stream().findFirst().get().getId());
+            int start = 0;
+            int size = 6;
+            List<ProductMainDto> products = productService.findProductByCategoryId(categoryService.findCategory().stream().findFirst().get().getId(), PageRequest.of(start, size, Sort.by("createdDate").descending()));
             assertNotNull(products);
             assertTrue(products.size() >= 0);
         } catch (Exception e) {
@@ -64,7 +67,9 @@ class ProductServiceTest {
     @Transactional(readOnly = true)
     public void findProductByKeywordTest() {
         try {
-            List<Product> products = productService.findProductByKeyword("덕");
+            int start = 0;
+            int size = 15;
+            List<Product> products = productService.findProductByKeyword("덕", PageRequest.of(start, size, Sort.by("createdDate").descending()));
             assertNotNull(products);
 
             products.forEach(product -> {

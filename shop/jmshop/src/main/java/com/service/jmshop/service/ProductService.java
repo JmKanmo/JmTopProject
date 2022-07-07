@@ -9,7 +9,7 @@ import java.util.List;
 public interface ProductService {
     List<Product> findTopProduct(Pageable pageable);
 
-    List<ProductMainDto> findProductByCategoryId(Long categoryId);
+    List<ProductMainDto> findProductByCategoryId(Long categoryId, Pageable pageable);
 
-    List<Product> findProductByKeyword(String keyword);
+    List<Product> findProductByKeyword(String keyword, Pageable pageable);
 }

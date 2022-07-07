@@ -40,14 +40,15 @@ a {
 }
 
 .header_box {
-    padding: 30px 200px 0 200px;
+    margin: 0 auto;
     display: flex;
     height: 100px;
+    max-width: 988px;
 }
 
 .header_box .logo_box {
     width: 10%;
-    padding: 20px;
+    padding: 20px 30px 20px 0;
 }
 
 .header_box .logo_box a {

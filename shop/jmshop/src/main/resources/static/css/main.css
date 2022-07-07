@@ -182,7 +182,8 @@ button {
 
 /* product-category */
 .product_category_board {
-    padding: 0 200px 0 200px;
+    max-width: 988px;
+    margin: 0 auto;
 }
 
 .product_category_board .product_category_h_tag {
@@ -227,7 +228,6 @@ button {
 
 .product_category_board .product_list .default_image_div {
     text-align: center;
-    display: none;
 }
 
 .product_category_board .product_list .default_image_div .message {
@@ -247,13 +247,22 @@ button {
 
 .product_category_board .product_list .product_board {
     float: left;
-    width: 23%;
+    width: 316px;
     height: 350px;
     border-radius: 4px;
     -webkit-box-shadow: 0px 2px 10px -2px rgb(0 0 0 / 6%), 0px 0px 1px 0px rgb(0 0 0 / 28%);
     box-shadow: 0px 2px 10px -2px rgb(0 0 0 / 6%), 0px 0px 1px 0px rgb(0 0 0 / 28%);
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
+}
+
+.product_category_board .product_list .product_board:nth-child(3n),
+.product_category_board .product_list .product_board:nth-child(3n-1) {
+    margin-left: 20px;
+}
+
+.product_category_board .product_list .product_board:nth-child(n+4) {
+    margin-top: 20px;
 }
 
 .product_category_board .product_list .product_board .product_board_div {
@@ -362,5 +371,43 @@ button {
     letter-spacing: -0.5px;
     text-decoration: line-through;
     vertical-align: middle;
+}
+
+/* total_product_button */
+.product_category_board .total_prod_btn {
+    position: relative;
+    text-align: center;
+    display: block;
+    margin-top: 35px;
+}
+
+.product_category_board .total_prod_btn .total_prod_link {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    width: 400px;
+    height: 56px;
+    line-height: 54px;
+    font-family: "Spoqa-Regular", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", Arial, sans-serif;
+    font-size: 15px;
+    color: #000;
+    letter-spacing: -0.3px;
+    border: solid 1px #e0e0e0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+.product_category_board .total_prod_btn .total_prod_link:after {
+    display: inline-block;
+    margin: 5px 0px 6px 6px;
+    width: 7px;
+    height: 7px;
+    border-top: 1px solid #000;
+    border-right: 1px solid #000;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    vertical-align: middle;
+    content: "";
 }
 
