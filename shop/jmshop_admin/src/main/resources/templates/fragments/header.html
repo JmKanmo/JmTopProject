@@ -3,8 +3,36 @@
 
 <div th:fragment="header">
     <div class="header_container">
-        <header class="header">
+        <header class="header clear_fix">
             <h1 class="logo"><a href="">관리자 페이지</a></h1>
+
+            <div class="user_util_box">
+                <ul>
+                    <li>
+                        <a href="/register">
+                            등록하기
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/delete">
+                            삭제하기
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/update">
+                            수정하기
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/monitoring">
+                            모니터링
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </header>
     </div>
 </div>

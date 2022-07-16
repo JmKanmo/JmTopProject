@@ -7,18 +7,55 @@
 }
 
 .header_container .header {
-    width: 1080px;
+    width: 988px;
     height: 100%;
     margin: 0 auto;
 }
 
 .header_container .header .logo {
+    float: left;
     line-height: 120px;
-    margin: 0 0 0 40px;
 }
 
 .header_container .header .logo a {
     color: #fff;
     cursor: pointer;
     font-size: 40px;
+}
+
+/*
+menu 영역
+*/
+.header_container .header .menu_list {
+    float: right;
+    line-height: 120px;
+    border: 1px solid gray;
+}
+
+.header_container .header .user_util_box {
+    float: right;
+    height: 100%;
+}
+
+.header_container .header .user_util_box ul {
+    float: right;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.header_container .header .user_util_box ul li {
+    height: 35%;
+    line-height: 42px;
+}
+
+.header_container .header .user_util_box ul li:nth-child(-n+3) {
+    margin-right: 30px;
+}
+
+
+.header_container .header .user_util_box ul li a {
+    color: #fff;
+    cursor: pointer;
+    font-size: 20px;
 }

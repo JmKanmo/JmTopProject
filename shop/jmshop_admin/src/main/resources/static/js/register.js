@@ -421,14 +421,24 @@ class ProductFormController extends UtilController {
         this.productCouponForm = document.querySelector("#product_coupon");
         this.productSellerForm = document.querySelector("#product_seller");
         this.productDeliveryForm = document.querySelector("#product_delivery");
+
+        this.reloadButton = document.getElementById("product_reload_button");
     }
 
     initProductFormController() {
-        this.initCategoryForm();
+        this.sendCategoryFormReq(false);
+        this.initReloadButton();
         this.setRegisterBtnClickListener();
     }
 
-    initCategoryForm() {
+    initReloadButton() {
+        this.reloadButton.addEventListener("click", () => {
+            this.sendCategoryFormReq(true);
+            this.showToastMessage("카테고리, 상품 정보 로드 완료");
+        });
+    }
+
+    sendCategoryFormReq(reload) {
         // init product Category form
         const categoryXhr = new XMLHttpRequest();
         categoryXhr.open("GET", "/register/category");
@@ -439,6 +449,11 @@ class ProductFormController extends UtilController {
             if (status === 200) {
                 let categoryList = JSON.parse(event.target.responseText);
                 let productCategoryForm = this.productCategoryForm;
+
+                if (reload === true) {
+                    productCategoryForm.innerHTML = '';
+                    productCategoryForm.add(new Option("카테고리 없음", Number.NaN));
+                }
 
                 for (let i = 0; i < categoryList.length; i++) {
                     productCategoryForm.add(new Option(categoryList[i]["name"], categoryList[i]["id"]));
@@ -457,6 +472,11 @@ class ProductFormController extends UtilController {
             if (status === 200) {
                 let sellerList = JSON.parse(event.target.responseText);
                 let productSellerForm = this.productSellerForm;
+
+                if (reload === true) {
+                    productSellerForm.innerHTML = '';
+                    productSellerForm.add(new Option("추가 안함", Number.NaN));
+                }
 
                 for (let i = 0; i < sellerList.length; i++) {
                     productSellerForm.add(new Option(`${sellerList[i]["cname"]} - ${sellerList[i]["uname"]}`, sellerList[i]["id"]));

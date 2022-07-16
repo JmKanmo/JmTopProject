@@ -5,23 +5,37 @@
 
 <div layout:fragment="content">
     <div class="middle_background">
-        <nav class="menu clear_fix">
-            <a href="#banner_image_form" class="btn_group">
-                배너이미지 등록
-            </a>
+        <div class="menu_div">
+            <h1 class="menu_title">
+                목차
+            </h1>
 
-            <a href="#product_form" class="btn_group">
-                상품 등록
-            </a>
+            <ul class="menu clear_fix">
+                <li class="menu_list">
+                    <a href="#banner_image_form" class="btn_group">
+                        배너이미지 등록
+                    </a>
+                </li>
 
-            <a href="#seller_form" class="btn_group middle_btn">
-                판매자 등록
-            </a>
+                <li class="menu_list">
+                    <a href="#product_form" class="btn_group">
+                        상품 등록
+                    </a>
+                </li>
 
-            <a href="#coupon_form" class="btn_group middle_btn">
-                쿠폰 등록
-            </a>
-        </nav>
+                <li class="menu_list">
+                    <a href="#seller_form" class="btn_group middle_btn">
+                        판매자 등록
+                    </a>
+                </li>
+
+                <li class="menu_list">
+                    <a href="#coupon_form" class="btn_group middle_btn">
+                        쿠폰 등록
+                    </a>
+                </li>
+            </ul>
+        </div>
 
         <div class="main">
             <div class="phrase">
@@ -64,7 +78,9 @@
             </div>
 
             <!-- 상품 폼  -->
-            <div class="content_container">
+            <div class="content_container product_container">
+                <button class="reload_button" id="product_reload_button"></button>
+
                 <div class="content_title">
                     <h3>상품 등록</h3>
                 </div>
