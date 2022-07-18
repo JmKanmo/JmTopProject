@@ -4,10 +4,11 @@
       layout:decorate="~{layouts/main_layout}">
 
 <div class="main_container" layout:fragment="content">
-    <strong>
+    <h1>상품 상세 정보 페이지 입니다.</h1>
+    <strong style="text-align: center">
         안녕하세요
-        <span th:text="'상품이름:' ${productName}"></span>
-        <span th:text="'상품아이디:' ${productId}"></span>\
+        <span th:text="${productName}"></span>
+        <span th:text="${productId}"></span>
         입니다.
     </strong>
 </div>

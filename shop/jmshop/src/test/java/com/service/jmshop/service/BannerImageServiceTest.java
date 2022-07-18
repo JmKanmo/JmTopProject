@@ -1,6 +1,7 @@
 package com.service.jmshop.service;
 
-import com.service.jmshop.dto.BannerImageDto;
+import com.service.jmshop.utils.banner.dto.BannerImageDto;
+import com.service.jmshop.utils.banner.service.BannerImageService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

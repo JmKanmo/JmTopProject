@@ -1,7 +1,7 @@
 package com.service.jmshop.controller.rest;
 
-import com.service.jmshop.dto.BannerImageDto;
-import com.service.jmshop.service.BannerImageService;
+import com.service.jmshop.utils.banner.dto.BannerImageDto;
+import com.service.jmshop.utils.banner.service.BannerImageService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

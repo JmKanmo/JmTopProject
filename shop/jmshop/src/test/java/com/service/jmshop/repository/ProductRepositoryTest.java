@@ -1,8 +1,9 @@
 package com.service.jmshop.repository;
 
-import com.service.jmshop.domain.Product;
-import com.service.jmshop.domain.ProductImage;
-import com.service.jmshop.service.CategoryService;
+import com.service.jmshop.product.domain.Product;
+import com.service.jmshop.product.domain.ProductImage;
+import com.service.jmshop.category.service.CategoryService;
+import com.service.jmshop.product.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

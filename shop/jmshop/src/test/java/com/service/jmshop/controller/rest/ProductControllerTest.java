@@ -1,6 +1,6 @@
 package com.service.jmshop.controller.rest;
 
-import com.service.jmshop.service.ProductService;
+import com.service.jmshop.product.service.ProductService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

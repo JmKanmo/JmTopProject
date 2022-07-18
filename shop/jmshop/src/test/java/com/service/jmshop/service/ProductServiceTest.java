@@ -1,8 +1,10 @@
 package com.service.jmshop.service;
 
-import com.service.jmshop.domain.Product;
-import com.service.jmshop.domain.ProductImage;
-import com.service.jmshop.dto.product.ProductMainDto;
+import com.service.jmshop.category.service.CategoryService;
+import com.service.jmshop.product.domain.Product;
+import com.service.jmshop.product.domain.ProductImage;
+import com.service.jmshop.product.dto.ProductMainDto;
+import com.service.jmshop.product.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

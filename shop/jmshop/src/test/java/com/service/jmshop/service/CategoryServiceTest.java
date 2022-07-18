@@ -1,7 +1,8 @@
 package com.service.jmshop.service;
 
-import com.service.jmshop.dto.category.MenuCategoryDto;
-import com.service.jmshop.dto.category.ProductCategoryDto;
+import com.service.jmshop.category.dto.MenuCategoryDto;
+import com.service.jmshop.category.dto.ProductCategoryDto;
+import com.service.jmshop.category.service.CategoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
