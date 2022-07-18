@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
+      layout:decorate="~{layouts/main_layout}">
+
+<div class="main_container" layout:fragment="content">
+    <strong>
+        안녕하세요
+        <span th:text="'상품이름:' ${productName}"></span>
+        <span th:text="'상품아이디:' ${productId}"></span>\
+        입니다.
+    </strong>
+</div>
+</html>

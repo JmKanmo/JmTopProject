@@ -1,4 +1,4 @@
-package com.service.jmshop.dto;
+package com.service.jmshop.dto.product;
 
 import com.service.jmshop.domain.Product;
 import com.service.jmshop.domain.ProductImage;

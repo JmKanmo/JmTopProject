@@ -275,6 +275,21 @@ button {
 .product_category_board .product_list .product_board .product_board_div .product_link {
     height: 100%;
     display: block;
+    position: relative;
+}
+
+.product_category_board .product_list .product_board .product_board_div .product_link::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.product_category_board .product_list .product_board .product_board_div .product_link:hover::after,
+.product_category_board .product_list .product_board .product_board_div .product_link:focus::after {
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
 .product_category_board .product_list .product_board .product_board_div .product_link .product_img_board {

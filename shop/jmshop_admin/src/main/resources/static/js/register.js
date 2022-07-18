@@ -939,9 +939,23 @@ class CouponFormController extends UtilController {
         this.couponPriceLimitForm = document.querySelector("#coupon_price_limit");
         this.couponMaxDiscountPriceForm = document.querySelector("#coupon_max_discount_price");
         this.couponDiscountPercentForm = document.querySelector("#coupon_discount_percent");
+        this.reloadButton = document.getElementById("coupon_reload_button");
     }
 
     initCouponFormController() {
+        this.sendCategoryFormReq(false);
+        this.setRegisterBtnClickListener();
+        this.initReloadButton();
+    }
+
+    initReloadButton() {
+        this.reloadButton.addEventListener("click", () => {
+            this.sendCategoryFormReq(true);
+            this.showToastMessage("쿠폰 적용 대상 카테고리 정보 로드 완료");
+        });
+    }
+
+    sendCategoryFormReq(reload) {
         const categoryXhr = new XMLHttpRequest();
         categoryXhr.open("GET", "/register/category");
 
@@ -952,6 +966,11 @@ class CouponFormController extends UtilController {
                 let categoryList = JSON.parse(event.target.responseText);
                 let couponCategoryForm = this.couponCategoryForm;
 
+                if (reload === true) {
+                    couponCategoryForm.innerHTML = '';
+                    couponCategoryForm.add(new Option("카테고리 없음", Number.NaN));
+                }
+
                 for (let i = 0; i < categoryList.length; i++) {
                     couponCategoryForm.add(new Option(categoryList[i]["name"], categoryList[i]["id"]));
                 }
@@ -959,8 +978,6 @@ class CouponFormController extends UtilController {
         });
 
         categoryXhr.send();
-
-        this.setRegisterBtnClickListener();
     }
 
     setRegisterBtnClickListener() {

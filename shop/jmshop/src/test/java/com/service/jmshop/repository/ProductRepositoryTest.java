@@ -28,7 +28,7 @@ public class ProductRepositoryTest {
         try {
             int start = 0;
             int size = 6;
-            List<Product> products = productRepository.findProductByCategoryId(categoryRepository.findCategory().stream().findFirst().get().getId(),
+            List<Product> products = productRepository.findProductByCategoryId(categoryRepository.findProductCategory().stream().findFirst().get().getId(),
                     PageRequest.of(start, size, Sort.by("createdDate").descending())).getContent();
             assertNotNull(products);
             assertTrue(products.size() >= 0);

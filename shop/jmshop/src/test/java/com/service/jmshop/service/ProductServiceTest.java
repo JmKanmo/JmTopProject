@@ -2,7 +2,7 @@ package com.service.jmshop.service;
 
 import com.service.jmshop.domain.Product;
 import com.service.jmshop.domain.ProductImage;
-import com.service.jmshop.dto.ProductMainDto;
+import com.service.jmshop.dto.product.ProductMainDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +54,7 @@ class ProductServiceTest {
         try {
             int start = 0;
             int size = 6;
-            List<ProductMainDto> products = productService.findProductByCategoryId(categoryService.findCategory().stream().findFirst().get().getId(), PageRequest.of(start, size, Sort.by("createdDate").descending()));
+            List<ProductMainDto> products = productService.findProductByCategoryId(categoryService.findProductCategory().stream().findFirst().get().getId(), PageRequest.of(start, size, Sort.by("createdDate").descending()));
             assertNotNull(products);
             assertTrue(products.size() >= 0);
         } catch (Exception e) {

@@ -7,17 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller("/")
 public class MainController {
-    @GetMapping
-    public String get(Model model) {
-        model.addAttribute("product", Util.ofEmpty());
-        model.addAttribute("banner", Util.ofEmpty());
-        model.addAttribute("seller", Util.ofEmpty());
-        model.addAttribute("coupon", Util.ofEmpty());
-        model.addAttribute("category", Util.ofEmpty());
-        return "contents/register";
-    }
-
-    @GetMapping("register")
+    @GetMapping(value = {"register", ""})
     public String register(Model model) {
         model.addAttribute("product", Util.ofEmpty());
         model.addAttribute("banner", Util.ofEmpty());
@@ -29,31 +19,16 @@ public class MainController {
 
     @GetMapping("update")
     public String update(Model model) {
-        model.addAttribute("product", Util.ofEmpty());
-        model.addAttribute("banner", Util.ofEmpty());
-        model.addAttribute("seller", Util.ofEmpty());
-        model.addAttribute("coupon", Util.ofEmpty());
-        model.addAttribute("category", Util.ofEmpty());
         return "contents/update";
     }
 
     @GetMapping("delete")
     public String delete(Model model) {
-        model.addAttribute("product", Util.ofEmpty());
-        model.addAttribute("banner", Util.ofEmpty());
-        model.addAttribute("seller", Util.ofEmpty());
-        model.addAttribute("coupon", Util.ofEmpty());
-        model.addAttribute("category", Util.ofEmpty());
         return "contents/delete";
     }
 
     @GetMapping("monitoring")
     public String monitoring(Model model) {
-        model.addAttribute("product", Util.ofEmpty());
-        model.addAttribute("banner", Util.ofEmpty());
-        model.addAttribute("seller", Util.ofEmpty());
-        model.addAttribute("coupon", Util.ofEmpty());
-        model.addAttribute("category", Util.ofEmpty());
         return "contents/monitoring";
     }
 }

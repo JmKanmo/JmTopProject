@@ -1,12 +1,11 @@
 package com.service.jmshop.service.impl;
 
 import com.service.jmshop.domain.Product;
-import com.service.jmshop.dto.ProductMainDto;
+import com.service.jmshop.dto.product.ProductMainDto;
 import com.service.jmshop.repository.ProductRepository;
 import com.service.jmshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

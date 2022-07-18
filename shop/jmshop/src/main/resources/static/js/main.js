@@ -11,6 +11,16 @@ class UrlParser {
  * 각종 기능 유틸리티 컨트롤러
  * **/
 class UtilController {
+    constructor() {
+        this.initHandlerbars();
+    }
+
+    initHandlerbars() {
+        Handlebars.registerHelper('isDiscountZero', discount => {
+            return discount <= 0 ? true : false;
+        });
+    }
+
     /** 오픈소스 참조 (로딩 중 화면 만들기) **/
     loadingWithMask(width, height) {
         //화면의 높이와 너비를 구합니다.
@@ -243,11 +253,11 @@ class ProductCategoryController {
     }
 
     requestHttpCategory() {
-        this.fetchCategory("/category").then(categoryData => {
+        this.fetchCategory("/category/product").then(categoryData => {
             if (categoryData !== undefined) {
                 const productCategoryListTemplate = document.querySelector("#product-category-list-template").innerHTML;
                 const template = Handlebars.compile(productCategoryListTemplate);
-                const templateHTML = template({categoryList: categoryData});
+                const templateHTML = template({productCategoryList: categoryData});
                 this.productCategoryList.innerHTML += templateHTML;
             }
         });
@@ -259,7 +269,7 @@ class ProductCategoryController {
             const responseJson = await response.json();
             return responseJson;
         } catch (error) {
-            console.log("[ProductCategoryController:fetchBannerImage] error =>", err);
+            console.log("[ProductCategoryController:fetchCategory] error =>", err);
             return undefined;
         }
     }
@@ -340,7 +350,7 @@ class ProductCardController extends UtilController {
             const responseJson = await response.json();
             return responseJson;
         } catch (error) {
-            console.log("[ProductCategoryController:fetchBannerImage] error =>", err);
+            console.log("[ProductCardController:fetchProduct] error =>", err);
             return undefined;
         }
     }

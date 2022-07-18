@@ -1,6 +1,7 @@
 package com.service.jmshop.service;
 
-import com.service.jmshop.dto.CategoryDto;
+import com.service.jmshop.dto.category.MenuCategoryDto;
+import com.service.jmshop.dto.category.ProductCategoryDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,15 @@ class CategoryServiceTest {
     }
 
     @Test
-    void findCategoryTest() {
-        List<CategoryDto> categories = categoryService.findCategory();
+    void findProductCategoryTest() {
+        List<ProductCategoryDto> categories = categoryService.findProductCategory();
+        assertNotNull(categories);
+        assertTrue(categories.size() >= 0);
+    }
+
+    @Test
+    void findMenuCategoryTest() {
+        List<MenuCategoryDto> categories = categoryService.findMenuCategory();
         assertNotNull(categories);
         assertTrue(categories.size() >= 0);
     }

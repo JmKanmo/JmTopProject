@@ -1,6 +1,7 @@
 package com.service.jmshop.controller.rest;
 
-import com.service.jmshop.dto.CategoryDto;
+import com.service.jmshop.dto.category.MenuCategoryDto;
+import com.service.jmshop.dto.category.ProductCategoryDto;
 import com.service.jmshop.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,8 +18,13 @@ import java.util.List;
 public class CategoryController {
     private final CategoryService categoryService;
 
-    @GetMapping
-    public ResponseEntity<List<CategoryDto>> getCategories() {
-        return ResponseEntity.status(HttpStatus.OK).body(categoryService.findCategory());
+    @GetMapping("menu")
+    public ResponseEntity<List<MenuCategoryDto>> getMenuCategories() {
+        return ResponseEntity.status(HttpStatus.OK).body(categoryService.findMenuCategory());
+    }
+
+    @GetMapping("product")
+    public ResponseEntity<List<ProductCategoryDto>> getProductCategories() {
+        return ResponseEntity.status(HttpStatus.OK).body(categoryService.findProductCategory());
     }
 }

@@ -61,11 +61,29 @@ main 영역(Menu,Contents..)
     border: 1px solid #d1d1d1;
 }
 
-.product_container {
+.product_container{
     position: relative;
 }
 
-.product_container .reload_button {
+.coupon_container {
+    position: relative;
+}
+
+.product_container .reload_button{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    border: 0;
+    background-image: url(../image/reload.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    outline: 0;
+}
+
+.coupon_container .reload_button{
     width: 20px;
     height: 20px;
     position: absolute;

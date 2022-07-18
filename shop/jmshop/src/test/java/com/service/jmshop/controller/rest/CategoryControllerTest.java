@@ -1,6 +1,7 @@
 package com.service.jmshop.controller.rest;
 
-import com.service.jmshop.dto.CategoryDto;
+import com.service.jmshop.dto.category.MenuCategoryDto;
+import com.service.jmshop.dto.category.ProductCategoryDto;
 import com.service.jmshop.service.CategoryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +28,28 @@ class CategoryControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    void getCategoriesTest() {
+    void getProductCategoriesTest() {
         try {
-            when(categoryService.findCategory()).thenReturn(Arrays.asList(CategoryDto.builder().build(), CategoryDto.builder().build(), CategoryDto.builder().build()));
-            mockMvc.perform(get("/category").accept("application/json"))
+            when(categoryService.findProductCategory()).thenReturn(Arrays.asList(ProductCategoryDto.builder().build(), ProductCategoryDto.builder().build(), ProductCategoryDto.builder().build()));
+            mockMvc.perform(get("/category/product").accept("application/json"))
                     .andDo(print())
                     .andExpect(status().isOk());
-            verify(categoryService, timeout(1)).findCategory();
+            verify(categoryService, timeout(1)).findProductCategory();
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+
+    @Test
+    void getMenuCategoriesTest() {
+        try {
+            when(categoryService.findMenuCategory()).thenReturn(Arrays.asList(MenuCategoryDto.builder().build(), MenuCategoryDto.builder().build(), MenuCategoryDto.builder().build()));
+            mockMvc.perform(get("/category/menu").accept("application/json"))
+                    .andDo(print())
+                    .andExpect(status().isOk());
+            verify(categoryService, timeout(1)).findMenuCategory();
         } catch (Exception e) {
             e.printStackTrace();
             fail();

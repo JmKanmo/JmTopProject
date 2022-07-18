@@ -17,7 +17,16 @@
     <script type="text/javascript" th:src="@{/js/header.js}"></script>
     <script type="text/javascript" th:src="@{/js/footer.js}"></script>
 
-    <!-- handlebars template -->
+    <!-- header template -->
+    <script id="menu-category-list-template" type="text/x-handlebars-template">
+        {{#each menuCategoryList}}
+        <li class="menu_category">
+            <a class="menu_category_link" href="/categoties/{{id}}">{{name}}</a>
+        </li>
+        {{/each}}
+    </script>
+
+    <!-- contents-main-product template -->
     <script id="banner-image-list-template" type="text/x-handlebars-template">
         {{#each bannerList}}
         <li class="banner-list">
@@ -29,7 +38,7 @@
     </script>
 
     <script id="product-category-list-template" type="text/x-handlebars-template">
-        {{#each categoryList}}
+        {{#each productCategoryList}}
         <li class="product_category" categoryId="{{id}}">
             <span class="product_category_span">{{name}}</span>
         </li>
@@ -62,13 +71,14 @@
                                 <strong class="product_discounted_price">{{discountedPrice}}</strong>원~
                             </div>
 
+                            {{#unless (isDiscountZero discount)}}
                             <div class="product_not_discounted_price_div">
                                 <strong class="product_not_discounted_price">{{basicPrice}}원</strong>
                                 <!--
                                 TODO => after or absolute 이용해 가격표시 아이콘 추후에 추가 (SSG.COM 참고)
                                 -->
                             </div>
-
+                            {{/unless}}
                             <!-- TODO => review 데이터 추후에 추가 (SSG.COM 참고) -->
                             <!-- TODO => 배송 아이콘 추후에 추가 (SSG.COM 참고) -->
                             <!-- TODO => 태그 추후에 추가 (SSG.COM 참고) -->
@@ -79,5 +89,7 @@
         </li>
         {{/each}}
     </script>
+
+
 </th:block>
 </html>
