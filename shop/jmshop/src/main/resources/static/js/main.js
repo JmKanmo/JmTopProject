@@ -279,6 +279,8 @@ class ProductCategoryController {
             this.setCategoryClickEvent(event.target);
             this.setDefaultImage();
         });
+
+        this.productCardController.setEventHandlerListener();
     }
 
     setCategoryClickEvent(target) {
@@ -314,6 +316,13 @@ class ProductCardController extends UtilController {
         this.curCategoryId = -1;
         this.productCardList = document.getElementById("product_list");
         this.emptyProdImage = document.getElementById("empty_image_div");
+        this.productMoreShowBtn = document.getElementById("moreProductBtn");
+    }
+
+    setEventHandlerListener() {
+        this.productMoreShowBtn.addEventListener("click", event => {
+            this.showToastMessage("상품 더보기 버튼 기능 구현 예정");
+        });
     }
 
     requestHttpProduct(categoryId) {
@@ -326,6 +335,7 @@ class ProductCardController extends UtilController {
                 if (productData !== undefined) {
                     if (productData.length <= 0) {
                         this.emptyProdImage.style.display = 'block';
+                        this.productMoreShowBtn.style.display = 'none';
                         this.productCardList.innerHTML = this.emptyProdImage.outerHTML;
                     } else {
                         const productListTemplate = document.querySelector("#product-card-template").innerHTML;
@@ -333,6 +343,7 @@ class ProductCardController extends UtilController {
                         const templateHTML = template({productList: productData});
                         this.productCardList.innerHTML = templateHTML;
                         this.emptyProdImage.style.display = 'none';
+                        this.productMoreShowBtn.style.display = 'block';
                     }
                     this.templateMap.set(categoryId, this.productCardList.innerHTML);
                 }
