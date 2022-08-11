@@ -140,7 +140,7 @@ public class FtpUtil {
         }
     }
 
-    public String ftpFileUpload(String fileUUID, InputStream fileInputStream, boolean admin) throws Exception {
+    public String fileUpload(String fileUUID, InputStream fileInputStream, boolean admin) throws Exception {
         try {
             final FTPClient ftpClient = new FTPClient();
 

@@ -1,5 +1,6 @@
 package com.jmshop.jmshop_admin.util;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,7 @@ class FtpUtilTest {
     }
 
     @Test
+    @Disabled
     public void ftpFileUploadTest() {
         try {
             String filename = "찡그린덕구.GIF";

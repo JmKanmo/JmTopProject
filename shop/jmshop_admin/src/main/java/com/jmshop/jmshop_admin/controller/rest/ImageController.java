@@ -1,6 +1,7 @@
 package com.jmshop.jmshop_admin.controller.rest;
 
 import com.jmshop.jmshop_admin.util.FtpUtil;
+import com.jmshop.jmshop_admin.util.SFtpUtil;
 import com.jmshop.jmshop_admin.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ImageController {
     private final FtpUtil ftpUtil;
+    private final SFtpUtil sFtpUtil;
 
     @PostMapping(path = "/image")
     public ResponseEntity<String> registerImage(@RequestParam("banner_image") MultipartFile multipartFile
@@ -24,7 +26,8 @@ public class ImageController {
         if (multipartFile.getOriginalFilename().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("");
         }
-        String imgSrc = ftpUtil.ftpFileUpload(Util.getStaticFileUUID(multipartFile), multipartFile.getInputStream(), paramMap.get("dest").equals("admin"));
+        // String imgSrc = ftpUtil.fileUpload(Util.getStaticFileUUID(multipartFile), multipartFile.getInputStream(), paramMap.get("dest").equals("admin"));
+        String imgSrc = sFtpUtil.fileUpload(Util.getStaticFileUUID(multipartFile), multipartFile.getInputStream());
         return ResponseEntity.status(HttpStatus.OK).body(imgSrc);
     }
 
@@ -37,7 +40,8 @@ public class ImageController {
             if (multipartFile.getOriginalFilename().isEmpty()) {
                 continue;
             }
-            String imgSrc = ftpUtil.ftpFileUpload(Util.getStaticFileUUID(multipartFile), multipartFile.getInputStream(), paramMap.get("dest").equals("admin"));
+            // String imgSrc = ftpUtil.fileUpload(Util.getStaticFileUUID(multipartFile), multipartFile.getInputStream(), paramMap.get("dest").equals("admin"));
+            String imgSrc = sFtpUtil.fileUpload(Util.getStaticFileUUID(multipartFile), multipartFile.getInputStream());
             imgSrcList.add(imgSrc);
         }
         return ResponseEntity.status(HttpStatus.OK).body(imgSrcList);

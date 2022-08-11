@@ -41,7 +41,7 @@ logging:
     file: "[%d] %-5level [${PID:-} - %thread - {%C => %M, %l}] %logger : %msg%n"
 
   file:
-    name: ../shop/jmshop_admin/logs/JmShopAdmin.log
+    name: ./logs/JmShopAdmin.log
     max-history: 30
 
 #  level:
@@ -67,7 +67,12 @@ admin_ftp:
   timeout: 10
   encoding: UTF-8
 
-
-
+aws_jm_ec2_sftp:
+  ip: 54.235.18.40
+  port: 22
+  id: ec2-user
+  password: wnsah12
+  directory: jmservice/static_files/images/jmshop
+  timeout: 60
 
 
