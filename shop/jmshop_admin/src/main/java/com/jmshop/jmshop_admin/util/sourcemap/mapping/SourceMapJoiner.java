@@ -54,15 +54,15 @@ public class SourceMapJoiner
             {
                 sourceMap.eachMapping(new SourceMap.EachMappingCallback()
                 {
-                    public void apply(Mapping mapping)
+                    public void apply(SourceMapping sourceMapping)
                     {
                         joinedMap.addMapping(
-                            finalLineOffset + mapping.getGeneratedLine(),
-                            mapping.getGeneratedColumn(),
-                            mapping.getSourceLine(),
-                            mapping.getSourceColumn(),
-                            mapping.getSourceFileName(),
-                            mapping.getSourceSymbolName()
+                            finalLineOffset + sourceMapping.getGeneratedLine(),
+                            sourceMapping.getGeneratedColumn(),
+                            sourceMapping.getSourceLine(),
+                            sourceMapping.getSourceColumn(),
+                            sourceMapping.getSourceFileName(),
+                            sourceMapping.getSourceSymbolName()
                         );
                     }
                 });

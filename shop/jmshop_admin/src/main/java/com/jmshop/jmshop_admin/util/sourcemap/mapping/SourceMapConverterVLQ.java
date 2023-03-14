@@ -11,9 +11,9 @@ import java.io.IOException;
  *
  * Code based on Google Closure Compiler https://code.google.com/p/closure-compiler
  */
-class Base64VLQ {
+class SourceMapConverterVLQ {
     // Utility class.
-    private Base64VLQ() {}
+    private SourceMapConverterVLQ() {}
 
     // A Base64 VLQ digit can represent 5 bits, so it is base-32.
     private static final int VLQ_BASE_SHIFT = 5;
@@ -57,7 +57,7 @@ class Base64VLQ {
             int digit = value & VLQ_BASE_MASK;
             value >>>= VLQ_BASE_SHIFT;
             if (value > 0) digit |= VLQ_CONTINUATION_BIT;
-            out.append(Base64.toBase64(digit));
+            out.append(SourceMapConverter.toBase64(digit));
         } while (value > 0);
     }
 
@@ -79,7 +79,7 @@ class Base64VLQ {
         int shift = 0;
         do {
             char c = in.next();
-            int digit = Base64.fromBase64(c);
+            int digit = SourceMapConverter.fromBase64(c);
             continuation = (digit & VLQ_CONTINUATION_BIT) != 0;
             digit &= VLQ_BASE_MASK;
             result = result + (digit << shift);

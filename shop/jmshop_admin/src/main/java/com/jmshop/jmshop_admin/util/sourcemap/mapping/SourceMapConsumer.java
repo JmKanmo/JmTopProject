@@ -13,14 +13,14 @@ import java.util.List;
  *
  * Code based on Google Closure Compiler https://code.google.com/p/closure-compiler
  */
-class Consumer {
+class SourceMapConsumer {
     static final int UNMAPPED = -1;
     private List<String> sourceFileNames;
     private List<String> sourceSymbolNames;
-    private ArrayList<ArrayList<Mapping>> lines = null;
+    private ArrayList<ArrayList<SourceMapping>> lines = null;
     private String sourceRoot;
 
-    public Consumer(String sourceMapData) {
+    public SourceMapConsumer(String sourceMapData) {
         parse(sourceMapData);
     }
 
@@ -40,12 +40,12 @@ class Consumer {
         sourceFileNames = Arrays.asList(sourceMapRoot.sources);
         sourceSymbolNames = Arrays.asList(sourceMapRoot.names);
 
-        lines = new ArrayList<ArrayList<Mapping>>();
+        lines = new ArrayList<ArrayList<SourceMapping>>();
 
         new MappingBuilder(sourceMapRoot.mappings).build();
     }
 
-    public Mapping getMapping(int lineNumber, int column)
+    public SourceMapping getMapping(int lineNumber, int column)
     {
         if (lineNumber < 0 || lineNumber >= lines.size()) return null;
 
@@ -56,7 +56,7 @@ class Consumer {
         // If the line is empty return the previous mapping.
         if (lines.get(lineNumber) == null) return getPreviousMapping(lineNumber);
 
-        ArrayList<Mapping> entries = lines.get(lineNumber);
+        ArrayList<SourceMapping> entries = lines.get(lineNumber);
         // No empty lists.
         if (entries.isEmpty()) throw new RuntimeException("empty list of entries!");
         if (entries.get(0).getGeneratedColumn() > column) return getPreviousMapping(lineNumber);
@@ -67,9 +67,9 @@ class Consumer {
     }
 
     public void eachMapping(SourceMap.EachMappingCallback cb) {
-        for (List<Mapping> line : lines) {
+        for (List<SourceMapping> line : lines) {
             if (line != null) {
-                for (Mapping mapping : line) cb.apply(mapping);
+                for (SourceMapping sourceMapping : line) cb.apply(sourceMapping);
             }
         }
     }
@@ -104,14 +104,14 @@ class Consumer {
         void build()
         {
             int [] temp = new int[MAX_ENTRY_VALUES];
-            ArrayList<Mapping> entries = new ArrayList<Mapping>();
+            ArrayList<SourceMapping> entries = new ArrayList<SourceMapping>();
             while (content.hasNext()) {
                 // ';' denotes a new line.
                 if (tryConsumeToken(';')) {
                     // The line is complete, store the result
                     completeLine(entries);
                     // A new array list for the next line.
-                    if (!entries.isEmpty()) entries = new ArrayList<Mapping>();
+                    if (!entries.isEmpty()) entries = new ArrayList<SourceMapping>();
                 }
                 else {
                     // grab the next entry for the current line.
@@ -120,7 +120,7 @@ class Consumer {
                         temp[entryValues] = nextValue();
                         entryValues++;
                     }
-                    Mapping entry = decodeEntry(line, temp, entryValues);
+                    SourceMapping entry = decodeEntry(line, temp, entryValues);
 
                     entries.add(entry);
 
@@ -134,7 +134,7 @@ class Consumer {
             if (!entries.isEmpty()) completeLine(entries);
         }
 
-        private void completeLine(ArrayList<Mapping> entries) {
+        private void completeLine(ArrayList<SourceMapping> entries) {
             // The line is complete, store the result for the line,
             // null if the line is empty.
             if (!entries.isEmpty()) lines.add(entries);
@@ -151,8 +151,8 @@ class Consumer {
          * @param entryValues The number of entries in the array.
          * @return The entry object.
          */
-        private Mapping decodeEntry(int generatedLine, int[] vals, int entryValues) {
-            Mapping entry;
+        private SourceMapping decodeEntry(int generatedLine, int[] vals, int entryValues) {
+            SourceMapping entry;
             int sourceFileNameIndex;
             String sourceFileName;
             int sourceSymbolNameIndex;
@@ -170,7 +170,7 @@ class Consumer {
                 // method.
                 case 1:
                     // An unmapped section of the generated file.
-                    entry = new MappingImpl(
+                    entry = new SourceMappingImpl(
                         generatedLine,
                         vals[0] + previousCol,
                         UNMAPPED,
@@ -187,7 +187,7 @@ class Consumer {
                     sourceFileNameIndex = vals[1] + previousSrcId;
                     sourceFileName = sourceFileNames.get(sourceFileNameIndex);
 
-                    entry = new MappingImpl(
+                    entry = new SourceMappingImpl(
                         generatedLine,
                         vals[0] + previousCol,
                         vals[2] + previousSrcLine,
@@ -209,7 +209,7 @@ class Consumer {
                     sourceSymbolNameIndex = vals[4] + previousNameId;
                     sourceSymbolName = sourceSymbolNames.get(sourceFileNameIndex);
 
-                    entry = new MappingImpl(
+                    entry = new SourceMappingImpl(
                         generatedLine,
                         vals[0] + previousCol,
                         vals[2] + previousSrcLine,
@@ -246,7 +246,7 @@ class Consumer {
         }
 
         private int nextValue() {
-            return Base64VLQ.decode(content);
+            return SourceMapConverterVLQ.decode(content);
         }
     }
 
@@ -254,7 +254,7 @@ class Consumer {
      * Perform a binary search on the array to find a section that covers
      * the target column.
      */
-    private int search(ArrayList<Mapping> entries, int target, int start, int end) {
+    private int search(ArrayList<SourceMapping> entries, int target, int start, int end) {
         while (true) {
             int mid = ((end - start) / 2) + start;
             int compare = compareEntry(entries, mid, target);
@@ -274,7 +274,7 @@ class Consumer {
     /**
      * Compare an array entry's column value to the target column value.
      */
-    private int compareEntry(ArrayList<Mapping> entries, int entry, int target) {
+    private int compareEntry(ArrayList<SourceMapping> entries, int entry, int target) {
         return entries.get(entry).getGeneratedColumn() - target;
     }
 
@@ -282,19 +282,19 @@ class Consumer {
      * Returns the mapping entry that proceeds the supplied line or null if no
      * such entry exists.
      */
-    private Mapping getPreviousMapping(int lineNumber) {
+    private SourceMapping getPreviousMapping(int lineNumber) {
         do {
             if (lineNumber == 0) return null;
             lineNumber--;
         } while (lines.get(lineNumber) == null);
-        ArrayList<Mapping> entries = lines.get(lineNumber);
+        ArrayList<SourceMapping> entries = lines.get(lineNumber);
         return getMappingForEntry(entries.get(entries.size() - 1));
     }
 
     /**
      * Creates an "Mapping" object for the given entry object.
      */
-    private Mapping getMappingForEntry(Mapping entry) {
+    private SourceMapping getMappingForEntry(SourceMapping entry) {
         return (entry.getSourceFileName() == null) ? null : entry;
     }
 
@@ -302,7 +302,7 @@ class Consumer {
      * A implementation of the Base64VLQ CharIterator used for decoding the
      * mappings encoded in the JSON string.
      */
-    private static class StringCharIterator implements Base64VLQ.CharIterator {
+    private static class StringCharIterator implements SourceMapConverterVLQ.CharIterator {
         final String content;
         final int length;
         int current = 0;

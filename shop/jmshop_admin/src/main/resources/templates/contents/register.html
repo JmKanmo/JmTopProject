@@ -41,6 +41,27 @@
             <div class="phrase">
                 <h3>등록 양식</h3>
             </div>
+            <!-- 소스맵 등록 폼 -->
+            <div class="content_container">
+                <div class="content_title">
+                    <h3>배너이미지 등록</h3>
+                </div>
+
+                <div class="div_contents" id="sourcemap_container">
+                    <form action="/project/api/pcode/{pcode}/sourcemap/data" method="POST" enctype="multipart/form-data"
+                          class="register_form image_form" id="sourcemap_form" name="banner_image_form">
+                        <label for="banner_image">소스맵 폼</label>
+                        <div class="image_container">
+                            <input multiple type="file" id="sourcemap_input" name="sourcemap"
+                                   class="file_form">
+                            <img class="sourcemap_img" id="sourcemap_img" title="소스맵">
+                        </div>
+                    </form>
+                    <button class="register_btn" id="sourcemap_button" type="button">등록하기</button>
+                </div>
+            </div>
+
+
             <!-- 배너이미지 폼  -->
             <div class="content_container">
                 <div class="content_title">
@@ -64,7 +85,7 @@
                           class="register_form image_form" id="banner_image_form" name="banner_image_form">
                         <label for="banner_image">배너 이미지 ('jpg', 'jpeg', 'png', 'gif', 'GIF')</label>
                         <div class="image_container">
-                            <input type="file" id="banner_image" name="banner_image"
+                            <input type="file" multiple id="banner_image" name="banner_image"
                                    class="file_form" accept="image/jpeg, image/jpg, image/png, image/gif, image/GIF">
                             <img class="thumbnail_img" id="banner_thumbnail_img" src="../image/default_thumbnail.gif"
                                  title="상품이미지">

@@ -1105,6 +1105,50 @@ class CouponFormController extends UtilController {
     }
 }
 
+class SourceMapController extends UtilController {
+    constructor() {
+        super();
+        this.sourceMapForm = document.forms["sourcemap_form"];
+        this.sourceMapInput = document.getElementById("sourcemap_input");
+        this.sourceMapButton = document.getElementById("sourcemap_button");
+    }
+
+    initSourceMapController() {
+        this.initEventHandler();
+    }
+
+    initEventHandler() {
+        this.sourceMapButton.addEventListener("click", evt => {
+            let imgFile = this.sourceMapInput.files;
+
+            if (imgFile && imgFile[0]) {
+                let fileForms = ['jpg', 'jpeg', 'png', 'gif', 'GIF'];
+                let fileSize = 50 * 1024 * 1024;
+                const fileReader = new FileReader();
+
+                fileReader.onload = (event) => {
+                    const xhr = new XMLHttpRequest();
+
+                    xhr.open("POST", "/project/api/pcode/1/sourcemap/data" + "?version=1.1&host=localhost");
+
+                    xhr.addEventListener("loadend", event => {
+                        let status = event.target.status;
+                        console.log("status =>" + status);
+                        console.log("error =>" + event.target.responseText);
+                    });
+
+                    xhr.addEventListener("error", event => {
+                        this.showToastMessage('오류가 발생하여 소스맵이 전송되지 않았습니다.');
+                    });
+                    xhr.send(new FormData(this.sourceMapForm));
+                }
+
+                fileReader.readAsDataURL(imgFile[0]);
+            }
+        });
+    }
+}
+
 /**
  * JmShop Form 전체 컨트롤러
  * **/
@@ -1116,6 +1160,7 @@ class JmShopFormController {
         this.sellerFormController = new SellerFormController();
         this.couponFormController = new CouponFormController();
         this.categoryFormController = new CategoryFormController();
+        this.sourcemapController = new SourceMapController();
     }
 
     initJmShopFormController() {
@@ -1125,6 +1170,7 @@ class JmShopFormController {
         this.sellerFormController.initSellerFormController();
         this.couponFormController.initCouponFormController();
         this.categoryFormController.initCategoryFormController();
+        this.sourcemapController.initSourceMapController();
     }
 }
 

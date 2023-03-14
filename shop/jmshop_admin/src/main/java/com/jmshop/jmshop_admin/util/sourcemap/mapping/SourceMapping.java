@@ -3,7 +3,7 @@ package com.jmshop.jmshop_admin.util.sourcemap.mapping;
 /**
  * Mapping of position from generated file to source file.
  */
-public interface Mapping
+public interface SourceMapping
 {
     public int getGeneratedLine();
 

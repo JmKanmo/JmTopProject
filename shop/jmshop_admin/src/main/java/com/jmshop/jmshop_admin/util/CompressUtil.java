@@ -10,6 +10,9 @@ import java.io.ByteArrayOutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+/**
+ * whatap 개발 시에는 기존에 개발된 라이브러리 사용 여부 결정
+ */
 @Component
 @Slf4j
 @RequiredArgsConstructor
@@ -26,8 +29,7 @@ public class CompressUtil {
     }
 
     public byte[] deCompressData(byte[] data) throws CompressException {
-        try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(data);
-             GZIPInputStream gzipInputStream = new GZIPInputStream(byteArrayInputStream)) {
+        try (GZIPInputStream gzipInputStream = new GZIPInputStream(new ByteArrayInputStream(data))) {
             return gzipInputStream.readAllBytes();
         } catch (Exception e) {
             log.error("CompressUtil:deCompressData: exception:", e);

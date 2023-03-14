@@ -5,9 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.Base64.Encoder;
+import java.util.List;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -18,12 +20,16 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class Test {
     public static void main(String[] args) throws IOException {
-        String src = new String(new FileInputStream("/Users/junmokang/Downloads/main.bundle.js.map.gz").readAllBytes());
+        String src = new String(new FileInputStream("/Users/junmokang/whatap/study/dev.txt").readAllBytes());
+        String[] parsed = src.split("data")[1].split("projects")[1].split("pcode");
+        List<Integer> pcodeList = new ArrayList<>();
 
-        String str = encrypt(src.getBytes(), "abcdefghijklmnop".getBytes());
+        for (int i = 1; i < parsed.length; i++) {
+            pcodeList.add(Integer.parseInt(parsed[i].split("\"\":")[0].split(",")[0].split(":")[1]));
+        }
+        // src.split("data")[1].split("projects")[1].split("pcode")[3].split("\"\":")[0].split(",")[0].split(":")[1]
 
-        String ret = decrypt(str.getBytes(), "abcdefgijklmnop".getBytes());
-        System.out.println(src.equals(ret));
+        System.out.println(src);
     }
 
 

@@ -7,10 +7,10 @@ import java.util.Arrays;
  *
  * Code based on Google Closure Compiler https://code.google.com/p/closure-compiler
  */
-class Base64 {
+class SourceMapConverter {
 
     // This is a utility class
-    private Base64() {}
+    private SourceMapConverter() {}
 
     // A map used to convert integer values in the range 0-63 to their base64 values.
     private static final String BASE64_MAP =
@@ -53,8 +53,8 @@ class Base64 {
     public static String base64EncodeInt(int value) {
         char[] c = new char[6];
         for (int i = 0; i < 5; i++)
-            c[i] = Base64.toBase64((value >> (26 - i * 6)) & 0x3f);
-        c[5] = Base64.toBase64((value << 4) & 0x3f);
+            c[i] = SourceMapConverter.toBase64((value >> (26 - i * 6)) & 0x3f);
+        c[5] = SourceMapConverter.toBase64((value << 4) & 0x3f);
         return new String(c);
     }
 }

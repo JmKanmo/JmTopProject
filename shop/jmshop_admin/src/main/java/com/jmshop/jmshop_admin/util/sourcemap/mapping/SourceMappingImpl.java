@@ -3,7 +3,7 @@ package com.jmshop.jmshop_admin.util.sourcemap.mapping;
 /**
  * Mapping for Source Map.
  */
-class MappingImpl implements Mapping {
+class SourceMappingImpl implements SourceMapping {
     private final int generatedLine;
     private final int generatedColumn;
     private final int sourceLine;
@@ -11,7 +11,7 @@ class MappingImpl implements Mapping {
     private final String sourceFileName;
     private final String sourceSymbolName;
 
-    public MappingImpl(int generatedLine, int generatedColumn, int sourceLine, int sourceColumn, String sourceFileName, String sourceSymbolName) {
+    public SourceMappingImpl(int generatedLine, int generatedColumn, int sourceLine, int sourceColumn, String sourceFileName, String sourceSymbolName) {
         this.generatedLine = generatedLine;
         this.generatedColumn = generatedColumn;
         this.sourceLine = sourceLine;

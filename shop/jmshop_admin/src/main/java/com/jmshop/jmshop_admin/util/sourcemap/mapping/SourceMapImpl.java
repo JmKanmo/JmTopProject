@@ -12,7 +12,7 @@ public class SourceMapImpl implements SourceMap {
      * @param sourceMap source map content.
      */
     public SourceMapImpl(String sourceMap) {
-        this.state = new Read(this, new Consumer(sourceMap));
+        this.state = new Read(this, new SourceMapConsumer(sourceMap));
     }
 
     /**
@@ -33,16 +33,16 @@ public class SourceMapImpl implements SourceMap {
 
     @Override
     public void addMapping(int generatedLine, int generatedColumn, int sourceLine, int sourceColumn, String sourceFileName, String sourceSymbolName) {
-        addMapping(new MappingImpl(generatedLine, generatedColumn, sourceLine, sourceColumn, sourceFileName, sourceSymbolName));
+        addMapping(new SourceMappingImpl(generatedLine, generatedColumn, sourceLine, sourceColumn, sourceFileName, sourceSymbolName));
     }
 
     @Override
-    public void addMapping(Mapping mapping) {
-        state.addMapping(mapping);
+    public void addMapping(SourceMapping sourceMapping) {
+        state.addMapping(sourceMapping);
     }
 
     @Override
-    public Mapping getMapping(int lineNumber, int column) {
+    public SourceMapping getMapping(int lineNumber, int column) {
         return state.getMapping(lineNumber, column);
     }
 
@@ -53,21 +53,21 @@ public class SourceMapImpl implements SourceMap {
 
     @Override
     public String generateForHumans() {
-        Consumer consumer = new Consumer(generate());
+        SourceMapConsumer sourceMapConsumer = new SourceMapConsumer(generate());
         final StringBuilder buff = new StringBuilder();
         buff.append("{\n");
-        buff.append("  sources  : [\n    " + InternalUtil.join(consumer.getSourceFileNames(), "\n    ") + "\n  ]\n");
+        buff.append("  sources  : [\n    " + SourceMapInternalUtil.join(sourceMapConsumer.getSourceFileNames(), "\n    ") + "\n  ]\n");
         buff.append("  mappings : [\n    ");
         final int[] previousLine = new int[]{-1};
-        consumer.eachMapping(new EachMappingCallback() {
-            public void apply(Mapping mapping) {
-                if ((mapping.getGeneratedLine() != previousLine[0]) && (previousLine[0] != -1)) buff.append("\n    ");
+        sourceMapConsumer.eachMapping(new EachMappingCallback() {
+            public void apply(SourceMapping sourceMapping) {
+                if ((sourceMapping.getGeneratedLine() != previousLine[0]) && (previousLine[0] != -1)) buff.append("\n    ");
                 else if (previousLine[0] != -1) buff.append(", ");
-                previousLine[0] = mapping.getGeneratedLine();
+                previousLine[0] = sourceMapping.getGeneratedLine();
 
-                String shortName = mapping.getSourceFileName().replaceAll(".*/", "");
-                buff.append("(" + mapping.getGeneratedLine() + ":" + mapping.getGeneratedColumn() + " -> "
-                    + shortName + ":" + mapping.getSourceLine() + ":" + mapping.getSourceColumn() + ")");
+                String shortName = sourceMapping.getSourceFileName().replaceAll(".*/", "");
+                buff.append("(" + sourceMapping.getGeneratedLine() + ":" + sourceMapping.getGeneratedColumn() + " -> "
+                    + shortName + ":" + sourceMapping.getSourceLine() + ":" + sourceMapping.getSourceColumn() + ")");
             }
         });
         buff.append("\n  ]\n}");
@@ -94,13 +94,13 @@ public class SourceMapImpl implements SourceMap {
      * It's implemented as a state machine, switching into Read, Write or DeferredOffset state.
      */
     private static interface State {
-        void addMapping(Mapping mapping);
+        void addMapping(SourceMapping sourceMapping);
 
         public String generate();
 
         public void eachMapping(EachMappingCallback callback);
 
-        public Mapping getMapping(int lineNumber, int column);
+        public SourceMapping getMapping(int lineNumber, int column);
 
         public List<String> getSourceFileNames();
     }
@@ -116,8 +116,8 @@ public class SourceMapImpl implements SourceMap {
         }
 
         @Override
-        public void addMapping(Mapping mapping) {
-            switchIntoWriteState().addMapping(mapping);
+        public void addMapping(SourceMapping sourceMapping) {
+            switchIntoWriteState().addMapping(sourceMapping);
         }
 
         @Override
@@ -131,7 +131,7 @@ public class SourceMapImpl implements SourceMap {
         }
 
         @Override
-        public Mapping getMapping(int lineNumber, int column) {
+        public SourceMapping getMapping(int lineNumber, int column) {
             return switchIntoReadState().getMapping(lineNumber, column);
         }
 
@@ -141,7 +141,7 @@ public class SourceMapImpl implements SourceMap {
         }
 
         private State switchIntoReadState() {
-            this.thisSourceMap.state = new Read(thisSourceMap, new Consumer(
+            this.thisSourceMap.state = new Read(thisSourceMap, new SourceMapConsumer(
                 "{\n" +
                 "  \"version\":3,\n" +
                 "  \"sources\":[],\n" +
@@ -162,45 +162,45 @@ public class SourceMapImpl implements SourceMap {
      * State of reading source map.
      */
     private static class Read implements State {
-        private Consumer consumer;
+        private SourceMapConsumer sourceMapConsumer;
         private SourceMapImpl thisSourceMap;
 
-        public Read(SourceMapImpl thisSourceMap, Consumer consumer) {
+        public Read(SourceMapImpl thisSourceMap, SourceMapConsumer sourceMapConsumer) {
             this.thisSourceMap = thisSourceMap;
-            this.consumer = consumer;
+            this.sourceMapConsumer = sourceMapConsumer;
         }
 
         @Override
         public void eachMapping(final EachMappingCallback callback) {
-            consumer.eachMapping(callback);
+            sourceMapConsumer.eachMapping(callback);
         }
 
         @Override
-        public Mapping getMapping(int lineNumber, int column) {
-            return consumer.getMapping(lineNumber, column);
+        public SourceMapping getMapping(int lineNumber, int column) {
+            return sourceMapConsumer.getMapping(lineNumber, column);
         }
 
         @Override
         public List<String> getSourceFileNames() {
-            return new ArrayList<String>(consumer.getSourceFileNames());
+            return new ArrayList<String>(sourceMapConsumer.getSourceFileNames());
         }
 
         @Override
-        public void addMapping(Mapping mapping) {
+        public void addMapping(SourceMapping sourceMapping) {
             throw new RuntimeException("operation getSourceFileNames not supported in " + this.getClass().getSimpleName() + " state!");
         }
 
         @Override
         public String generate() {
-            final Generator generator = new Generator();
+            final SourceMapGenerator sourceMapGenerator = new SourceMapGenerator();
             eachMapping(new EachMappingCallback()
             {
-                public void apply(Mapping mapping)
+                public void apply(SourceMapping sourceMapping)
                 {
-                    generator.addMapping(mapping);
+                    sourceMapGenerator.addMapping(sourceMapping);
                 }
             });
-            return generator.generate();
+            return sourceMapGenerator.generate();
         }
     }
 
@@ -209,32 +209,32 @@ public class SourceMapImpl implements SourceMap {
      */
     private static class Write implements State {
         private SourceMapImpl thisSourceMap;
-        private Generator generator;
+        private SourceMapGenerator sourceMapGenerator;
         private int lastGeneratedLine = 0;
         private int lastGeneratedColumn = 0;
 
         public Write(SourceMapImpl thisSourceMap) {
             this.thisSourceMap = thisSourceMap;
-            this.generator = new Generator();
+            this.sourceMapGenerator = new SourceMapGenerator();
         }
 
         @Override
-        public void addMapping(Mapping mapping) {
+        public void addMapping(SourceMapping sourceMapping) {
             // In current implementation of generator it's required that lines where added in proper order,
             // checking for it.
-            if (lastGeneratedLine > mapping.getGeneratedLine())
+            if (lastGeneratedLine > sourceMapping.getGeneratedLine())
                 throw new RuntimeException("mappings should be added in a proper order!");
-            else if ((lastGeneratedLine == mapping.getGeneratedLine()) && (lastGeneratedColumn > mapping.getGeneratedColumn()))
+            else if ((lastGeneratedLine == sourceMapping.getGeneratedLine()) && (lastGeneratedColumn > sourceMapping.getGeneratedColumn()))
                 throw new RuntimeException("mappings should be added in a proper order!");
-            lastGeneratedLine = mapping.getGeneratedLine();
-            lastGeneratedColumn = mapping.getGeneratedColumn();
+            lastGeneratedLine = sourceMapping.getGeneratedLine();
+            lastGeneratedColumn = sourceMapping.getGeneratedColumn();
 
-            generator.addMapping(mapping);
+            sourceMapGenerator.addMapping(sourceMapping);
         }
 
         @Override
         public String generate() {
-            return generator.generate();
+            return sourceMapGenerator.generate();
         }
 
         @Override
@@ -243,7 +243,7 @@ public class SourceMapImpl implements SourceMap {
         }
 
         @Override
-        public Mapping getMapping(int lineNumber, int column) {
+        public SourceMapping getMapping(int lineNumber, int column) {
             return performanceInefficientSwitchIntoReadState().getMapping(lineNumber, column);
         }
 
@@ -255,7 +255,7 @@ public class SourceMapImpl implements SourceMap {
         // Switching into read mode, no writes would be allowed after this call, it's also
         // not efficient because it requires serialization of source map data to and from string.
         private Read performanceInefficientSwitchIntoReadState() {
-            Read read = new Read(thisSourceMap, new Consumer(generate()));
+            Read read = new Read(thisSourceMap, new SourceMapConsumer(generate()));
             thisSourceMap.state = read;
             return read;
         }
@@ -275,7 +275,7 @@ public class SourceMapImpl implements SourceMap {
         }
 
         @Override
-        public void addMapping(Mapping mapping) {
+        public void addMapping(SourceMapping sourceMapping) {
             throw new RuntimeException("operation addMapping not supported in " + this.getClass().getSimpleName() + " state!");
         }
 
@@ -290,7 +290,7 @@ public class SourceMapImpl implements SourceMap {
         }
 
         @Override
-        public Mapping getMapping(int lineNumber, int column) {
+        public SourceMapping getMapping(int lineNumber, int column) {
             return calculateOffsetAndSwitchIntoWriteState().getMapping(lineNumber, column);
         }
 
@@ -302,14 +302,14 @@ public class SourceMapImpl implements SourceMap {
         private State calculateOffsetAndSwitchIntoWriteState() {
             final Write write = new Write(thisSourceMap);
             sourceMapWithoutOffset.eachMapping(new EachMappingCallback() {
-                public void apply(Mapping mapping) {
-                    write.addMapping(new MappingImpl(
-                        offset + mapping.getGeneratedLine(),
-                        mapping.getGeneratedColumn(),
-                        mapping.getSourceLine(),
-                        mapping.getSourceColumn(),
-                        mapping.getSourceFileName(),
-                        mapping.getSourceSymbolName()
+                public void apply(SourceMapping sourceMapping) {
+                    write.addMapping(new SourceMappingImpl(
+                        offset + sourceMapping.getGeneratedLine(),
+                        sourceMapping.getGeneratedColumn(),
+                        sourceMapping.getSourceLine(),
+                        sourceMapping.getSourceColumn(),
+                        sourceMapping.getSourceFileName(),
+                        sourceMapping.getSourceSymbolName()
                     ));
                 }
             });

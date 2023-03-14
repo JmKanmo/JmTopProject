@@ -8,14 +8,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * Generates Source Map version 3.
- *
  * Code based on Google Closure Compiler https://code.google.com/p/closure-compiler
  */
-class Generator {
+class SourceMapGenerator {
 
     // A pre-order traversal ordered list of mappings stored in this map.
-    private List<Mapping> mappings = new ArrayList<Mapping>();
+    private List<SourceMapping> sourceMappings = new ArrayList<SourceMapping>();
 
     private LinkedHashMap<String, Integer> sourceFileNames = new LinkedHashMap<String, Integer>();
     private int nextSourceFileNameIndex = 0;
@@ -28,24 +26,24 @@ class Generator {
     /**
      * Adds a mapping for the given node.  Mappings must be added in order.
      */
-    public void addMapping(Mapping mapping) {
-        if (mapping.getSourceFileName() == null) throw new RuntimeException("source file name required!");
+    public void addMapping(SourceMapping sourceMapping) {
+        if (sourceMapping.getSourceFileName() == null) throw new RuntimeException("source file name required!");
 
-        if (!sourceFileNames.containsKey(mapping.getSourceFileName())) {
-            sourceFileNames.put(mapping.getSourceFileName(), nextSourceFileNameIndex);
+        if (!sourceFileNames.containsKey(sourceMapping.getSourceFileName())) {
+            sourceFileNames.put(sourceMapping.getSourceFileName(), nextSourceFileNameIndex);
             nextSourceFileNameIndex += 1;
         }
 
-        if ((mapping.getSourceSymbolName() != null) && (!sourceSymbolNames.containsKey(mapping.getSourceSymbolName()))) {
-            sourceSymbolNames.put(mapping.getSourceSymbolName(), nextSourceSymbolNameIndex);
+        if ((sourceMapping.getSourceSymbolName() != null) && (!sourceSymbolNames.containsKey(sourceMapping.getSourceSymbolName()))) {
+            sourceSymbolNames.put(sourceMapping.getSourceSymbolName(), nextSourceSymbolNameIndex);
             nextSourceSymbolNameIndex += 1;
         }
 
-        mappings.add(mapping);
+        sourceMappings.add(sourceMapping);
     }
 
     public void addMapping(int generatedLine, int generatedColumn, int sourceLine, int sourceColumn, String sourceFileName, String sourceSymbolName) {
-        addMapping(new MappingImpl(generatedLine, generatedColumn, sourceLine, sourceColumn, sourceFileName, sourceSymbolName));
+        addMapping(new SourceMappingImpl(generatedLine, generatedColumn, sourceLine, sourceColumn, sourceFileName, sourceSymbolName));
     }
 
     public void addMapping(int generatedLine, int generatedColumn, int sourceLine, int sourceColumn, String sourceFileName) {
@@ -148,7 +146,7 @@ class Generator {
      * Escapes the given string for JSON.
      */
     private static String escapeString(String value) {
-        return InternalUtil.escapeString(value);
+        return SourceMapInternalUtil.escapeString(value);
     }
 
     private static void appendFirstField(Appendable out, String name, CharSequence value) throws IOException {
@@ -206,9 +204,9 @@ class Generator {
         // Append the line mapping entries.
         void appendLineMappings() throws IOException {
             openLine(true);
-            for (Mapping mapping : mappings)  {
-                int generatedLine = mapping.getGeneratedLine();
-                int generatedColumn = mapping.getGeneratedColumn();
+            for (SourceMapping sourceMapping : sourceMappings)  {
+                int generatedLine = sourceMapping.getGeneratedLine();
+                int generatedColumn = sourceMapping.getGeneratedColumn();
 
                 if (generatedLine > 0 && previousLine != generatedLine) {
                     int start = previousLine == -1 ? 0 : previousLine;
@@ -221,7 +219,7 @@ class Generator {
                 if (previousLine != generatedLine) previousColumn = 0;
                 else out.append(',');
 
-                writeEntry(mapping, generatedColumn);
+                writeEntry(sourceMapping, generatedColumn);
                 previousLine = generatedLine;
                 previousColumn = generatedColumn;
             }
@@ -249,29 +247,29 @@ class Generator {
          * The values are stored as relative to the last seen values for each
          * field and encoded as Base64VLQs.
          */
-        void writeEntry(Mapping m, int column) throws IOException {
+        void writeEntry(SourceMapping m, int column) throws IOException {
             // The relative generated column number
-            Base64VLQ.encode(out, column - previousColumn);
+            SourceMapConverterVLQ.encode(out, column - previousColumn);
             previousColumn = column;
             if (m != null) {
                 // The relative source file id
                 int sourceId = getSourceFileNameIndex(m.getSourceFileName());
-                Base64VLQ.encode(out, sourceId - previousSourceFileNameId);
+                SourceMapConverterVLQ.encode(out, sourceId - previousSourceFileNameId);
                 previousSourceFileNameId = sourceId;
 
                 // The relative source file line and column
                 int srcline = m.getSourceLine();
                 int srcColumn = m.getSourceColumn();
-                Base64VLQ.encode(out, srcline - previousSourceLine);
+                SourceMapConverterVLQ.encode(out, srcline - previousSourceLine);
                 previousSourceLine = srcline;
 
-                Base64VLQ.encode(out, srcColumn - previousSourceColumn);
+                SourceMapConverterVLQ.encode(out, srcColumn - previousSourceColumn);
                 previousSourceColumn = srcColumn;
 
                 if (m.getSourceSymbolName() != null) {
                     // The relative id for the associated symbol name
                     int nameId = getSourceSymbolNameIndex(m.getSourceSymbolName());
-                    Base64VLQ.encode(out, (nameId - previousSourceSymbolNameId));
+                    SourceMapConverterVLQ.encode(out, (nameId - previousSourceSymbolNameId));
                     previousSourceSymbolNameId = nameId;
                 }
             }

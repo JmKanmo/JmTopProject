@@ -19,12 +19,12 @@ public interface SourceMap {
     /**
      * Add mapping.
      */
-    public void addMapping(Mapping mapping);
+    public void addMapping(SourceMapping sourceMapping);
 
     /**
      * Get mapping for line and column in generated file.
      */
-    public Mapping getMapping(int lineNumber, int column);
+    public SourceMapping getMapping(int lineNumber, int column);
 
     /**
      * Generate source map JSON.
@@ -42,7 +42,7 @@ public interface SourceMap {
     public List<String> getSourceFileNames();
 
     public static interface EachMappingCallback {
-        public void apply(Mapping mapping);
+        public void apply(SourceMapping sourceMapping);
     }
 
     /**

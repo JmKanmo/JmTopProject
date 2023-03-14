@@ -6,7 +6,7 @@ import java.nio.charset.CharsetEncoder;
 /**
  * Code based on Google Closure Compiler https://code.google.com/p/closure-compiler
  */
-class InternalUtil
+class SourceMapInternalUtil
 {
     private static final char[] HEX_CHARS = {
         '0', '1', '2', '3', '4', '5', '6', '7',

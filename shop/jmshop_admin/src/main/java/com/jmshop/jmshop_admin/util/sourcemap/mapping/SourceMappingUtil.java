@@ -6,7 +6,7 @@ import java.io.InputStream;
 /**
  * Helpers for converting source maps.
  */
-public class Util
+public class SourceMappingUtil
 {
     /**
      * Generate source map comment for JS or CSS.
@@ -89,16 +89,16 @@ public class Util
     public static SourceMap rebase(SourceMap sourceMap, final SourceMap previousSourceMap) {
         final SourceMap rebasedMap = new SourceMapImpl();
         sourceMap.eachMapping(new SourceMap.EachMappingCallback() {
-            public void apply(Mapping mapping) {
-                Mapping rebasedMapping = previousSourceMap.getMapping(mapping.getSourceLine(), mapping.getSourceColumn());
-                if (rebasedMapping != null)  {
+            public void apply(SourceMapping sourceMapping) {
+                SourceMapping rebasedSourceMapping = previousSourceMap.getMapping(sourceMapping.getSourceLine(), sourceMapping.getSourceColumn());
+                if (rebasedSourceMapping != null)  {
                     rebasedMap.addMapping(
-                        mapping.getGeneratedLine(),
-                        mapping.getGeneratedColumn(),
-                        rebasedMapping.getSourceLine(),
-                        rebasedMapping.getSourceColumn(),
-                        rebasedMapping.getSourceFileName(),
-                        rebasedMapping.getSourceSymbolName()
+                        sourceMapping.getGeneratedLine(),
+                        sourceMapping.getGeneratedColumn(),
+                        rebasedSourceMapping.getSourceLine(),
+                        rebasedSourceMapping.getSourceColumn(),
+                        rebasedSourceMapping.getSourceFileName(),
+                        rebasedSourceMapping.getSourceSymbolName()
                     );
                 }
             }
